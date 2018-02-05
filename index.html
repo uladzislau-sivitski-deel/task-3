@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Быстрый старт. Размещение интерактивной карты на странице</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <script src="https://api-maps.yandex.ru/2.0-stable/?load=package.standard&lang=ru-RU" type="text/javascript"></script>
+    <script type="text/javascript">
+        ymaps.ready(init);
+        var myMap, 
+            myPlacemark;
+
+        function init(){ 
+            myMap = new ymaps.Map ("map", {
+                center: [55.76, 37.64],
+                zoom: 1
+            }); 
+            
+            myPlacemark = new ymaps.Placemark([55.76, 37.64], {
+                hintContent: 'Москва!',
+                balloonContent: 'Столица России'
+            });
+            
+            myMap.geoObjects.add(myPlacemark);
+            const citiesObject = {};
+            fetch('http://api.geonames.org/searchJSON?&lan=ru&maxRows=1000&cities=cities1000&name_startsWith=А&username=vladosiv')
+              .then(response => {
+                response.json().then(response => {
+                    response.geonames.forEach(cityInfo => {
+                        const firstLetter = cityInfo.name[0];
+                        if (!citiesObject[firstLetter]) {
+                            citiesObject[firstLetter] = [];
+                        }
+                        if (!citiesObject[firstLetter].includes(cityInfo.name)){
+                            citiesObject[firstLetter].push(cityInfo.name);
+                        }
+                    });
+                    console.log(citiesObject);
+                })
+            })
+
+        }
+    </script>
+</head>
+
+<body>
+    <div id="map" style="width: 600px; height: 400px"></div>
+</body>
+
+</html>
+
+
+a = "https://ru.wikipedia.org/w/api.php?&origin=*&action=query&tites=Категория:Списки_городов_по_странам&limit=10"
