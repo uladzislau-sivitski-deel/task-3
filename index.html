@@ -4,14 +4,21 @@
     <title>Быстрый старт. Размещение интерактивной карты на странице</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <script src="https://api-maps.yandex.ru/2.0-stable/?load=package.standard&lang=ru-RU" type="text/javascript"></script>
-    <script type="text/javascript">
+    <script src="css/styles.css" type="text/stylesheets"></script>
+    <link rel="stylesheet" href="css/styles.css">
+
+    <script>
         ymaps.ready(init);
         var myMap;
+
+        function playerMove(params) {
+            let playersInput = document.getElementById('playersInput');
+        }
 
         function init(){ 
             myMap = new ymaps.Map ("map", {
                 center: [55.76, 37.64],
-                zoom: 1
+                zoom: 3
             }); 
 
             const citiesObject = {};
@@ -38,21 +45,25 @@
                             //     });
             
                             // myMap.geoObjects.add(placemark);
-                            })
+                            // })
                         });
                     })
                 })
             }
-            console.log(citiesObject);
         }
     </script>
 </head>
 
-<body>
+<body >
+    <div class="container">
+        <div>
+            <input type="text" id="playersInput">
+            <button onclick="playersMove">OK</button>
+        </div>
+        <div><textarea name="log" id="" cols="2" rows="10"></textarea></div>
+        <div><input type="text" id="AIInput"></div>
+    </div>
     <div id="map" style="width: 600px; height: 400px"></div>
 </body>
 
 </html>
-
-
-a = "https://ru.wikipedia.org/w/api.php?&origin=*&action=query&tites=Категория:Списки_городов_по_странам&limit=10"
