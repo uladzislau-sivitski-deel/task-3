@@ -6,38 +6,44 @@
     <script src="https://api-maps.yandex.ru/2.0-stable/?load=package.standard&lang=ru-RU" type="text/javascript"></script>
     <script type="text/javascript">
         ymaps.ready(init);
-        var myMap, 
-            myPlacemark;
+        var myMap;
 
         function init(){ 
             myMap = new ymaps.Map ("map", {
                 center: [55.76, 37.64],
                 zoom: 1
             }); 
-            
-            myPlacemark = new ymaps.Placemark([55.76, 37.64], {
-                hintContent: 'Москва!',
-                balloonContent: 'Столица России'
-            });
-            
-            myMap.geoObjects.add(myPlacemark);
-            const citiesObject = {};
-            fetch('http://api.geonames.org/searchJSON?&lan=ru&maxRows=1000&cities=cities1000&name_startsWith=А&username=vladosiv')
-              .then(response => {
-                response.json().then(response => {
-                    response.geonames.forEach(cityInfo => {
-                        const firstLetter = cityInfo.name[0];
-                        if (!citiesObject[firstLetter]) {
-                            citiesObject[firstLetter] = [];
-                        }
-                        if (!citiesObject[firstLetter].includes(cityInfo.name)){
-                            citiesObject[firstLetter].push(cityInfo.name);
-                        }
-                    });
-                    console.log(citiesObject);
-                })
-            })
 
+            const citiesObject = {};
+            for (let i = 'А'.charCodeAt(0); i <= 'Я'.charCodeAt(0); i++ ) {
+                let letter = String.fromCharCode(i); 
+                promiser = fetch(`http://api.geonames.org/searchJSON?&lan=ru&maxRows=100&cities=cities1000&orderby=relevance&name_startsWith=${letter}&username=vladosiv`)
+                .then(response => {response.json()
+                    .then(response => {
+                        response.geonames.forEach(cityInfo => {
+                            const firstLetter = cityInfo.name[0];
+                            if (!citiesObject[firstLetter]) {
+                                citiesObject[firstLetter] = [];
+                            }
+                            if (!citiesObject[firstLetter].includes(cityInfo.name)){
+                                citiesObject[firstLetter].push(cityInfo.name);
+                            }
+                            //adding to map
+                            // var myGeocoder = ymaps.geocode(cityInfo.name);
+                            // myGeocoder.then((res) => {
+                            //     let coordinates = res.geoObjects.get(0).geometry.getCoordinates();
+                            //     let placemark = new ymaps.Placemark(coordinates, {
+                            //         hintContent: cityInfo.name,
+                            //         balloonContent: cityInfo.name
+                            //     });
+            
+                            // myMap.geoObjects.add(placemark);
+                            })
+                        });
+                    })
+                })
+            }
+            console.log(citiesObject);
         }
     </script>
 </head>
