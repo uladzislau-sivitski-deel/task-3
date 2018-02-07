@@ -1,69 +1,19 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    <title>Быстрый старт. Размещение интерактивной карты на странице</title>
+    <title>Игра в города</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <script src="https://api-maps.yandex.ru/2.0-stable/?load=package.standard&lang=ru-RU" type="text/javascript"></script>
-    <script src="css/styles.css" type="text/stylesheets"></script>
     <link rel="stylesheet" href="css/styles.css">
-
-    <script>
-        ymaps.ready(init);
-        var myMap;
-
-        function playerMove(params) {
-            let playersInput = document.getElementById('playersInput');
-        }
-
-        function init(){ 
-            myMap = new ymaps.Map ("map", {
-                center: [55.76, 37.64],
-                zoom: 3
-            }); 
-
-            const citiesObject = {};
-            for (let i = 'А'.charCodeAt(0); i <= 'Я'.charCodeAt(0); i++ ) {
-                let letter = String.fromCharCode(i); 
-                promiser = fetch(`http://api.geonames.org/searchJSON?&lan=ru&maxRows=100&cities=cities1000&orderby=relevance&name_startsWith=${letter}&username=vladosiv`)
-                .then(response => {response.json()
-                    .then(response => {
-                        response.geonames.forEach(cityInfo => {
-                            const firstLetter = cityInfo.name[0];
-                            if (!citiesObject[firstLetter]) {
-                                citiesObject[firstLetter] = [];
-                            }
-                            if (!citiesObject[firstLetter].includes(cityInfo.name)){
-                                citiesObject[firstLetter].push(cityInfo.name);
-                            }
-                            //adding to map
-                            // var myGeocoder = ymaps.geocode(cityInfo.name);
-                            // myGeocoder.then((res) => {
-                            //     let coordinates = res.geoObjects.get(0).geometry.getCoordinates();
-                            //     let placemark = new ymaps.Placemark(coordinates, {
-                            //         hintContent: cityInfo.name,
-                            //         balloonContent: cityInfo.name
-                            //     });
-            
-                            // myMap.geoObjects.add(placemark);
-                            // })
-                        });
-                    })
-                })
-            }
-        }
-    </script>
 </head>
 
 <body >
-    <div class="container">
-        <div>
-            <input type="text" id="playersInput">
-            <button onclick="playersMove">OK</button>
-        </div>
-        <div><textarea name="log" id="" cols="2" rows="10"></textarea></div>
-        <div><input type="text" id="AIInput"></div>
-    </div>
-    <div id="map" style="width: 600px; height: 400px"></div>
+    <div class="outer"></div>
+    <script src="js/consts.js"></script>
+    <script src="js/render.js"></script>
+    <script src="js/solution.js"></script>
+    <script src="js/index.js"></script>
+    <div id="map" style="width: 100%; height: 400px"></div>
 </body>
 
 </html>
