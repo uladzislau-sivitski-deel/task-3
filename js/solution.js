@@ -11,8 +11,7 @@
       isValidCity(city).then(res => {
         res
         ? addCityToMap(city, 'blue').then(() => {
-            newLastLetter(city);            
-            PLAYERS_GUESSES.push(city);
+            afterTurn('player', city)
             setTimeout(() => {
                 computerMove(city);  
             }, 3000);           
@@ -25,16 +24,22 @@
 
     }
 
+    function afterTurn(player, city) {
+        let arr = CITIES[city(0)]
+        newLastLetter(city);            
+        player === 'player' ? PLAYERS_GUESSES.push(city) : COMPUTER_GUESSES.push.city;
+        arr.slice(arr.indexOf(city), 1);
+    }
+
     async function computerMove() {
         let city = await getNewCity();
         addCityToMap(city, 'red').then(() => {
-            newLastLetter(city);            
-            PLAYERS_GUESSES.push(сity);
+            afterTurn('computer', city)
         })
     }
 
     async function getNewCity() {
-        let city = await asyncFilter(CITIES[LAST_LETTER], async city => {
+        let city = await asyncFilter(CITIES[LAST_LETTER].slice(0,10), async city => {
             let valid = await isValidCity(city);
             return valid === true;
         })
