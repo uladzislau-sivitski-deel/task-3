@@ -42,7 +42,7 @@
     }
 
     async function asyncFilter(arr, callback) {
-        return (await Promise.race(arr.race(async item => {
+        return (await Promise.race(arr.filter(async item => {
              return (await callback(item)) ? item : undefined
         })));
     }
