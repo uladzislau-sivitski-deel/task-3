@@ -89,9 +89,9 @@
                     for(letter in CITIES){
                         let chunks = splitArray(CITIES[letter], 10);
                         for(let i=0; i < chunks.length; i++) {
-                            resolveAfterTime(3000);                            
+                            var wait1 = resolveAfterTime(3000);                            
                             var x = await checkArrayInYandex(chunks[i]);
-                            resolveAfterTime(3000);
+                            var wait2 = resolveAfterTime(3000);                            
                         }
                     }
                     console.log(CITIES);
