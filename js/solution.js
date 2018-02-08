@@ -87,7 +87,7 @@
                 .then(function(json) {
                     CITIES = json;
                     Object.keys(CITIES).map(async letter => {
-                        await checkArrayInYandex(CITIES[letter]);
+                        checkArrayInYandex(CITIES[letter]);
                         var x = await resolveAfter1Second(10);
                     });
                 });
@@ -105,7 +105,7 @@
         return new Promise(resolve => {
           setTimeout(() => {
             resolve(x);
-          }, 1000);
+          }, 10000);
         });
       }
 
@@ -141,13 +141,12 @@
 
     async function checkArrayInYandex(cities) {
         let newCities = cities.slice();
-        cities.forEach(async city => {
-            let inYandex = await isInYandex(city);
+        await Promise.all(cities.map(async (city) => {
+            const inYandex = await isInYandex(city);
             if(!inYandex){
-
                 newCities.slice(newCities.indexOf(city), 1);
             }
-        });
+          }));
     }
 
     root.SHRI_CITIES.playersMove = playersMove;
