@@ -87,9 +87,8 @@
                 .then(async json => {
                     CITIES = json;
                     for(letter in CITIES){
-                        let chunks = splitArray(CITIES[letter], 10);
-                        for(let i=0; i < chunks.length; i++) {
-                            var wait1 = resolveAfterTime(3000);                            
+                        let chunks = splitArray(CITIES[letter], 5);
+                        for(let i=0; i < chunks.length; i++) {                         
                             var x = await checkArrayInYandex(chunks[i]);
                             var wait2 = resolveAfterTime(3000);                            
                         }
