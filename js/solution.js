@@ -24,12 +24,13 @@
     }
 
     function playerValidation(){
-        
+
     }
 
     function computerMove() {
         let сity = CITIES[LAST_LETTER].find((city) => isValidCity(city));
         addCityToMap(сity, 'red').then(() => {
+            newLastLetter(city);            
             COMPUTER_GUESSES.push(сity);
         });
     }
@@ -63,7 +64,10 @@
     }
 
     function isValidCity(city) {
-        if(!PLAYERS_GUESSES.includes(city) && !COMPUTER_GUESSES.includes(city) && ((LAST_LETTER && city[0] === LAST_LETTER) || !LAST_LETTER)) {
+        if(
+            !PLAYERS_GUESSES.includes(city)
+            && !COMPUTER_GUESSES.includes(city)
+            && ((LAST_LETTER && city[0] === LAST_LETTER) || !LAST_LETTER)) {
             return true;
         }
     }
