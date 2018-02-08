@@ -6,34 +6,47 @@
     var EXCEPTIONS = root.SHRI_CITIES.EXCEPTIONS;
     var LAST_LETTER = ''
 
-    function playersMove() {
+    async function playersMove() {
       let city = document.querySelector('.playersInput').value;
-      if(isValidCity(city)){
-        addCityToMap(city, 'blue')
-        .then(() => {
+      isValidCity(city).then(res => {
+        res
+        ? addCityToMap(city, 'blue').then(() => {
+            newLastLetter(city);            
             PLAYERS_GUESSES.push(city);
-            newLastLetter(city);
             setTimeout(() => {
                 computerMove(city);  
             }, 3000);           
-        });
-      }
-      else {
-          playerValidation();
-      }
+        })
+        : playerValidation();   
+      });
     }
 
     function playerValidation(){
 
     }
 
-    function computerMove() {
-        let сity = CITIES[LAST_LETTER].find((city) => isValidCity(city));
-        addCityToMap(сity, 'red').then(() => {
-            newLastLetter(сity);            
-            COMPUTER_GUESSES.push(сity);
-        });
+    async function computerMove() {
+        let city = await getNewCity();
+        addCityToMap(city, 'red').then(() => {
+            newLastLetter(city);            
+            PLAYERS_GUESSES.push(сity);
+        })
     }
+
+    async function getNewCity() {
+        let city = await asyncFilter(CITIES[LAST_LETTER], async city => {
+            let valid = await isValidCity(city);
+            return valid === true;
+        })
+        return city[0];
+    }
+
+    async function asyncFilter(arr, callback) {
+        return (await Promise.all(arr.map(async item => {
+             return (await callback(item)) ? item : undefined
+        }))).filter(i=>i!==undefined);
+    }
+
 
     function newLastLetter(city) {
         LAST_LETTER = !EXCEPTIONS.includes(city[city.length - 1])
@@ -51,6 +64,13 @@
         })
     }
 
+    function isInYandex(city){
+        var myGeocoder = ymaps.geocode(city, { kind: 'locality'});  
+        return myGeocoder.then((res) => {
+            return res.geoObjects.get(0);
+        })
+    }
+
     function mapInit() {
         getCities();
         const init = () => { 
@@ -64,12 +84,12 @@
     }
 
     function isValidCity(city) {
-        if(
-            !PLAYERS_GUESSES.includes(city)
+       return isInYandex(city).then(isInYandex => 
+            isInYandex
+            && !PLAYERS_GUESSES.includes(city)
             && !COMPUTER_GUESSES.includes(city)
-            && ((LAST_LETTER && city[0] === LAST_LETTER) || !LAST_LETTER)) {
-            return true;
-        }
+            && ((LAST_LETTER && city[0] === LAST_LETTER) || !LAST_LETTER) 
+        )
     }
 
     function getCities(){
