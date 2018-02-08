@@ -85,7 +85,7 @@
        fetch('./js/cities.json')
             .then(response =>  response.json())
                 .then(async json => {
-                    CITIES = json['А'].slice(0,100);
+                    CITIES = json['А'];
                     await checkArrayInYandex(CITIES);
                     console.log(CITIES);
                 });
@@ -141,7 +141,7 @@
         return Promise.all(cities.map(async (city) => {
             const inYandex = await isInYandex(city);
             if(!inYandex){
-                cities.slice(cities.indexOf(city), 1);
+                cities.splice(cities.indexOf(city), 1);
             }
         }));   
     }
