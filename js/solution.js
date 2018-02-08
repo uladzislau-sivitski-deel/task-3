@@ -89,6 +89,7 @@
                     let chunks = splitArray(CITIES, 100);
                     for(const chunk in chunks) {
                         await checkArrayInYandex(chunk);
+                        resolveAfterTime(10000);
                     }
                     console.log(CITIES);
                 });
