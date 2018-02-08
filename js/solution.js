@@ -87,11 +87,9 @@
                 .then(async json => {
                     CITIES = json['А'];
                     let chunks = splitArray(CITIES, 100);
-
                     chunks.forEach(async chunk => {
-                        await checkArrayInYandex(CITIES);
+                        await checkArrayInYandex(chunk);
                     })
-
                     console.log(CITIES);
                 });
     }
@@ -155,7 +153,7 @@
         return Promise.all(cities.map(async (city) => {
             const inYandex = await isInYandex(city);
             if(!inYandex){
-                cities.splice(cities.indexOf(city), 1);
+                CITIES[city[0]].splice(CITIES[city[0]].indexOf(city), 1);
             }
         }));   
     }
