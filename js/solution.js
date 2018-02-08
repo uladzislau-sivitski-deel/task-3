@@ -85,8 +85,8 @@
        fetch('./js/cities.json')
             .then(response =>  response.json())
                 .then(async json => {
-                    CITIES = json['А'];
-                    let chunks = splitArray(CITIES, 100);
+                    CITIES = json;
+                    let chunks = splitArray(CITIES[['А']], 100);
                     for(let i=0; i < chunks.length; i++) {
                         var x = await checkArrayInYandex(chunks[i]);
                         resolveAfterTime(10000);
