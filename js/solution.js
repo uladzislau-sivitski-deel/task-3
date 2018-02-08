@@ -86,9 +86,23 @@
             .then(response =>  response.json())
                 .then(async json => {
                     CITIES = json['А'];
-                    await checkArrayInYandex(CITIES);
+                    let chunks = splitArray(CITIES, 100);
+
+                    chunks.forEach(async chunk => {
+                        await checkArrayInYandex(CITIES);
+                    })
+                    
                     console.log(CITIES);
                 });
+    }
+
+
+    function splitArray(arr, chunkSize) {
+        let chunks = [], i;
+        for (i = 0; i < arr.length; i += chunkSize) {
+            groups.push(arr.slice(i, i + chunkSize));
+        }
+        return groups;
     }
 
     function download(text, name, type) {
