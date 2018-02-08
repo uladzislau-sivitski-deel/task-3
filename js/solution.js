@@ -54,7 +54,7 @@
     }
 
     function getCities(){
-       fetch('cities.json')
+       fetch('./cities.json')
             .then(response =>  response.json())
                 .then(function(json) {
                     CITIES = json;
