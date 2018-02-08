@@ -65,8 +65,12 @@
         // }
     }
 
-    function wikiUrl() {
-        return `https://ru.wikipedia.org/w/api.php?action=query&list=categorymembers&cmtitle=Category:Населённые пункты по алфавиту&cmlimit=500&cmprop=title&utf8=&origin=*&format=json`
+    function getCities(){
+       fetch('cities.json')
+            .then(response =>  response.json())
+                .then(function(json) {
+                    CITIES = json;
+                });
     }
 
     function download(text, name, type) {
@@ -82,13 +86,17 @@
             .then(response => {
                 response.json()
                 .then(response => {
-                    response.query.categorymembers.forEach(cityInfo => {
-                        const firstLetter = cityInfo.title[0];
-                        if (!CITIES[firstLetter]) {
-                            CITIES[firstLetter] = [];
-                        }
-                        if (!CITIES[firstLetter].includes(cityInfo.title)){
-                            CITIES[firstLetter].push(cityInfo.title);
+                    response.query.categorymembers.forEach(city => {
+                        city = city.title.replace(/\s?\(.+\)\s?/, '');
+                        const firstLetter = city[0];
+                        const lastLetter = city[city.length -1];
+                        if(firstLetter.match(/[А-Я]/) && lastLetter.match(/[а-я]/)) {
+                            if (!CITIES[firstLetter]) {
+                                CITIES[firstLetter] = [];
+                            }
+                            if (!CITIES[firstLetter].includes(city)){
+                                CITIES[firstLetter].push(city);
+                            }
                         }
                     });
                     if(response.query.categorymembers.length === 500) {
@@ -104,4 +112,5 @@
     root.SHRI_CITIES.playersMove = playersMove;
     root.SHRI_CITIES.mapInit = mapInit;
     root.SHRI_CITIES.fetchCities = fetchCities;
+    root.SHRI_CITIES.getCities = getCities;
 })(this);
