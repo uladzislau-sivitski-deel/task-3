@@ -5,19 +5,18 @@
     var CITIES = root.SHRI_CITIES.CITIES;
     var EXCEPTIONS = root.SHRI_CITIES.EXCEPTIONS;
     var LAST_LETTER = ''
+    var WIKI_URL = root.SHRI_CITIES.WIKI_URL;
 
     async function playersMove() {
       let city = document.querySelector('.playersInput').value;
-      isValidCity(city).then(res => {
-        res
+      isValidCity(city)
         ? addCityToMap(city, 'blue').then(() => {
             afterTurn('player', city)
             setTimeout(() => {
                 computerMove(city);  
-            }, 3000);           
+            }, 1000);           
         })
         : playerValidation();   
-      });
     }
 
     function playerValidation(){
@@ -27,29 +26,15 @@
     function afterTurn(player, city) {
         let arr = CITIES[city[0]]
         newLastLetter(city);            
-        player === 'player' ? PLAYERS_GUESSES.push(city) : COMPUTER_GUESSES.push.city;
+        player === 'player' ? PLAYERS_GUESSES.push(city) : COMPUTER_GUESSES.push(city);
         arr.slice(arr.indexOf(city), 1);
     }
 
-    async function computerMove() {
-        let city = await getNewCity();
+    function computerMove() {
+        let city = CITIES[LAST_LETTER].filter(city => isValidCity(city));
         addCityToMap(city, 'red').then(() => {
             afterTurn('computer', city)
         })
-    }
-
-    async function getNewCity() {
-        let city = await asyncFilter(CITIES[LAST_LETTER].slice(0,10), async city => {
-            let valid = await isValidCity(city);
-            return valid === true;
-        })
-        return city;
-    }
-
-    async function asyncFilter(arr, callback) {
-        return (await Promise.race(arr.filter(async item => {
-             return (await callback(item)) ? item : undefined
-        })));
     }
 
 
@@ -76,32 +61,35 @@
         })
     }
 
-    function mapInit() {
-        getCities();
+    function mapInit(){
         const init = () => { 
             MAP = new ymaps.Map ("map", {
                 center: [55.76, 37.64],
                 zoom: 3,
                 behaviors:['default', 'scrollZoom']
             });
+            //fetchCities(WIKI_URL); 
+            getCities(); 
         }
         ymaps.ready(init);
     }
 
     function isValidCity(city) {
-       return isInYandex(city).then(isInYandex => 
-            isInYandex
+       return CITIES[city[0]].includes(city)
             && !PLAYERS_GUESSES.includes(city)
             && !COMPUTER_GUESSES.includes(city)
             && ((LAST_LETTER && city[0] === LAST_LETTER) || !LAST_LETTER) 
-        )
     }
 
-    function getCities(){
+    async function getCities(){
        fetch('./js/cities.json')
             .then(response =>  response.json())
                 .then(function(json) {
                     CITIES = json;
+                    Object.keys(CITIES).map(async letter => {
+                        await checkArrayInYandex(CITIES[letter]);
+                        var x = await resolveAfter1Second(10);
+                    });
                 });
     }
 
@@ -113,15 +101,23 @@
         a.click();
     }
 
+    function resolveAfter1Second(x) { 
+        return new Promise(resolve => {
+          setTimeout(() => {
+            resolve(x);
+          }, 1000);
+        });
+      }
+
     function fetchCities(url) {
             promise = fetch(url)
             .then(response => {
                 response.json()
-                .then(response => {
-                    response.query.categorymembers.forEach(city => {
+                .then(async response => {
+                    response.query.categorymembers.map(city => {
                         city = city.title.replace(/\s?\(.+\)\s?/, '');
                         const firstLetter = city[0];
-                        const lastLetter = city[city.length -1];
+                        const lastLetter = city[city.length - 1];
                         if(firstLetter.match(/[А-Я]/) && lastLetter.match(/[а-я]/)) {
                             if (!CITIES[firstLetter]) {
                                 CITIES[firstLetter] = [];
@@ -130,6 +126,7 @@
                                 CITIES[firstLetter].push(city);
                             }
                         }
+                        return city;
                     });
                     if(response.query.categorymembers.length === 500) {
                         let newUrl = `${url.replace(/&cmcontinue.+/, '')}&cmcontinue=${response.continue.cmcontinue}`;
@@ -142,8 +139,18 @@
             })
     }
 
+    async function checkArrayInYandex(cities) {
+        let newCities = cities.slice();
+        cities.forEach(async city => {
+            let inYandex = await isInYandex(city);
+            if(!inYandex){
+
+                newCities.slice(newCities.indexOf(city), 1);
+            }
+        });
+    }
+
     root.SHRI_CITIES.playersMove = playersMove;
     root.SHRI_CITIES.mapInit = mapInit;
-    root.SHRI_CITIES.fetchCities = fetchCities;
     root.SHRI_CITIES.getCities = getCities;
 })(this);
