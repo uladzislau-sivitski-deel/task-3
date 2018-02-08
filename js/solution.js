@@ -140,14 +140,12 @@
     }
 
     async function checkArrayInYandex(cities) {
-        return new Promise(resolve => {
-            Promise.all(cities.map(async (city) => {
+          return Promise.all(cities.map(async (city) => {
                 const inYandex = await isInYandex(city);
                 if(!inYandex){
                     cities.slice(cities.indexOf(city), 1);
                 }
-            })).then(() => {resolve();});   
-        })
+            }));   
     }
 
     root.SHRI_CITIES.playersMove = playersMove;
