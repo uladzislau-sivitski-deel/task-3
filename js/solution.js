@@ -91,7 +91,7 @@
                     chunks.forEach(async chunk => {
                         await checkArrayInYandex(CITIES);
                     })
-                    
+
                     console.log(CITIES);
                 });
     }
@@ -102,7 +102,7 @@
         for (i = 0; i < arr.length; i += chunkSize) {
             groups.push(arr.slice(i, i + chunkSize));
         }
-        return groups;
+        return chunks;
     }
 
     function download(text, name, type) {
