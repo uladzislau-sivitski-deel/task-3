@@ -85,14 +85,9 @@
        fetch('./js/cities.json')
             .then(response =>  response.json())
                 .then(function(json) {
-                    CITIES = json;
-                    Promise.all(Object.keys(CITIES).map(async letter => {
-                        await checkArrayInYandex(CITIES[letter]);
-                        var x = await resolveAfter1Second(100000);
-                    }))
-                    .then(res => {
-
-                    });
+                    CITIES = json['А'].slice(0,100);
+                    await checkArrayInYandex(CITIES[letter]);
+                    console.log(CITIES);
                 });
     }
 
@@ -143,12 +138,12 @@
     }
 
     async function checkArrayInYandex(cities) {
-          return Promise.all(cities.map(async (city) => {
-                const inYandex = await isInYandex(city);
-                if(!inYandex){
-                    cities.slice(cities.indexOf(city), 1);
-                }
-            }));   
+        return Promise.all(cities.map(async (city) => {
+            const inYandex = await isInYandex(city);
+            if(!inYandex){
+                cities.slice(cities.indexOf(city), 1);
+            }
+        }));   
     }
 
     root.SHRI_CITIES.playersMove = playersMove;
