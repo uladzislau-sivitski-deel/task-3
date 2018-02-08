@@ -87,9 +87,9 @@
                 .then(async json => {
                     CITIES = json['А'];
                     let chunks = splitArray(CITIES, 100);
-                    chunks.forEach(async chunk => {
+                    for(const chunk in chunks) {
                         await checkArrayInYandex(chunk);
-                    })
+                    }
                     console.log(CITIES);
                 });
     }
