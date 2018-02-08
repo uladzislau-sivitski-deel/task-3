@@ -18,12 +18,19 @@
             }, 3000);           
         });
       }
+      else {
+          playerValidation();
+      }
+    }
+
+    function playerValidation(){
+        
     }
 
     function computerMove() {
-        let nextCity = CITIES[LAST_LETTER].find((city) => isValidCity(city));
-        addCityToMap(city, 'red').then(() => {
-            COMPUTER_GUESSES.push(nextCity);
+        let сity = CITIES[LAST_LETTER].find((city) => isValidCity(city));
+        addCityToMap(сity, 'red').then(() => {
+            COMPUTER_GUESSES.push(сity);
         });
     }
 
