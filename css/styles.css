@@ -1,4 +1,6 @@
 .container {
   display: inline-block;
   margin-left: 45%;
+  margin-top: 100px;
+  margin-bottom: 100px;
 }

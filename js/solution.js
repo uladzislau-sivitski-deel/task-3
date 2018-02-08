@@ -30,7 +30,7 @@
     function computerMove() {
         let сity = CITIES[LAST_LETTER].find((city) => isValidCity(city));
         addCityToMap(сity, 'red').then(() => {
-            newLastLetter(city);            
+            newLastLetter(сity);            
             COMPUTER_GUESSES.push(сity);
         });
     }
