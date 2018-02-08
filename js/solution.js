@@ -141,14 +141,14 @@
 
     async function checkArrayInYandex(cities) {
         return new Promise(resolve => {
-        await Promise.all(cities.map(async (city) => {
-            const inYandex = await isInYandex(city);
-            if(!inYandex){
-                cities.slice(cities.indexOf(city), 1);
-            }
-          }));
-        resolve();
-    })}
+            Promise.all(cities.map(async (city) => {
+                const inYandex = await isInYandex(city);
+                if(!inYandex){
+                    cities.slice(cities.indexOf(city), 1);
+                }
+            })).then(() => {resolve();});   
+        })
+    }
 
     root.SHRI_CITIES.playersMove = playersMove;
     root.SHRI_CITIES.mapInit = mapInit;
