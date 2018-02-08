@@ -38,13 +38,13 @@
             let valid = await isValidCity(city);
             return valid === true;
         })
-        return city[0];
+        return city;
     }
 
     async function asyncFilter(arr, callback) {
-        return (await Promise.all(arr.map(async item => {
+        return (await Promise.race(arr.race(async item => {
              return (await callback(item)) ? item : undefined
-        }))).filter(i=>i!==undefined);
+        })));
     }
 
 
