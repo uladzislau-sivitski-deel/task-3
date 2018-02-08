@@ -84,7 +84,7 @@
     async function getCities(){
        fetch('./js/cities.json')
             .then(response =>  response.json())
-                .then(function(json) {
+                .then(async json => {
                     CITIES = json['А'].slice(0,100);
                     await checkArrayInYandex(CITIES);
                     console.log(CITIES);
