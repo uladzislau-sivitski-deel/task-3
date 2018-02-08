@@ -86,9 +86,12 @@
             .then(response =>  response.json())
                 .then(function(json) {
                     CITIES = json;
-                    Object.keys(CITIES).map(async letter => {
+                    Promise.all(Object.keys(CITIES).map(async letter => {
                         await checkArrayInYandex(CITIES[letter]);
-                        var x = await resolveAfter1Second(10);
+                        var x = await resolveAfter1Second(100000);
+                    }))
+                    .then(res => {
+
                     });
                 });
     }
