@@ -25,7 +25,7 @@
     }
 
     function afterTurn(player, city) {
-        let arr = CITIES[city(0)]
+        let arr = CITIES[city[0]]
         newLastLetter(city);            
         player === 'player' ? PLAYERS_GUESSES.push(city) : COMPUTER_GUESSES.push.city;
         arr.slice(arr.indexOf(city), 1);
