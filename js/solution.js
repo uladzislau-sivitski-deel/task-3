@@ -87,7 +87,7 @@
                 .then(function(json) {
                     CITIES = json;
                     Object.keys(CITIES).map(async letter => {
-                        checkArrayInYandex(CITIES[letter]);
+                        await checkArrayInYandex(CITIES[letter]);
                         var x = await resolveAfter1Second(10);
                     });
                 });
@@ -101,11 +101,11 @@
         a.click();
     }
 
-    function resolveAfter1Second(x) { 
+    function resolveAfterTime(time) { 
         return new Promise(resolve => {
           setTimeout(() => {
             resolve(x);
-          }, 10000);
+          }, time);
         });
       }
 
@@ -140,14 +140,15 @@
     }
 
     async function checkArrayInYandex(cities) {
-        let newCities = cities.slice();
+        return new Promise(resolve => {
         await Promise.all(cities.map(async (city) => {
             const inYandex = await isInYandex(city);
             if(!inYandex){
-                newCities.slice(newCities.indexOf(city), 1);
+                cities.slice(cities.indexOf(city), 1);
             }
           }));
-    }
+        resolve();
+    })}
 
     root.SHRI_CITIES.playersMove = playersMove;
     root.SHRI_CITIES.mapInit = mapInit;
