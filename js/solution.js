@@ -86,7 +86,7 @@
             .then(response =>  response.json())
                 .then(function(json) {
                     CITIES = json['А'].slice(0,100);
-                    await checkArrayInYandex(CITIES[letter]);
+                    await checkArrayInYandex(CITIES);
                     console.log(CITIES);
                 });
     }
