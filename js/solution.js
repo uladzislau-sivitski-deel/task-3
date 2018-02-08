@@ -3,6 +3,8 @@
     var PLAYERS_GUESSES = root.SHRI_CITIES.PLAYERS_GUESSES;
     var COMPUTER_GUESSES = root.SHRI_CITIES.COMPUTER_GUESSES;
     var CITIES = root.SHRI_CITIES.CITIES;
+    var EXCEPTIONS = root.SHRI_CITIES.EXCEPTIONS;
+    var LAST_LETTER = ''
 
     function playersMove() {
       let city = document.querySelector('.playersInput').value;
@@ -10,19 +12,25 @@
         addCityToMap(city, 'blue')
         .then(() => {
             PLAYERS_GUESSES.push(city);
+            newLastLetter(city);
             setTimeout(() => {
-                computerMove(city[city.length - 1]);  
+                computerMove(city);  
             }, 3000);           
         });
       }
     }
 
-    function computerMove(letter) {
-        let city = CITIES[letter.toLocaleUpperCase()].find((city) => isValidCity(city));
-        addCityToMap(city, 'red')
-        .then(() => {
-            COMPUTER_GUESSES.push(city);
+    function computerMove() {
+        let nextCity = CITIES[LAST_LETTER].find((city) => isValidCity(city));
+        addCityToMap(city, 'red').then(() => {
+            COMPUTER_GUESSES.push(nextCity);
         });
+    }
+
+    function newLastLetter(city) {
+        LAST_LETTER = !EXCEPTIONS.includes(city[city.length - 1])
+        ? (city[city.length - 1]).toUpperCase()
+        : city[city.length - 2].toUpperCase();
     }
 
     function addCityToMap(city, color){
@@ -48,7 +56,7 @@
     }
 
     function isValidCity(city) {
-        if(!PLAYERS_GUESSES.includes(city) && !COMPUTER_GUESSES.includes(city)) {
+        if(!PLAYERS_GUESSES.includes(city) && !COMPUTER_GUESSES.includes(city) && ((LAST_LETTER && city[0] === LAST_LETTER) || !LAST_LETTER)) {
             return true;
         }
     }
