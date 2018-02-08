@@ -86,10 +86,12 @@
             .then(response =>  response.json())
                 .then(async json => {
                     CITIES = json;
-                    let chunks = splitArray(CITIES[['А']], 100);
-                    for(let i=0; i < chunks.length; i++) {
-                        var x = await checkArrayInYandex(chunks[i]);
-                        resolveAfterTime(10000);
+                    for(letter in cities){
+                        let chunks = splitArray(CITIES[letter], 100);
+                        for(let i=0; i < chunks.length; i++) {
+                            var x = await checkArrayInYandex(chunks[i]);
+                            resolveAfterTime(3000);
+                        }
                     }
                     console.log(CITIES);
                 });
@@ -115,7 +117,7 @@
     function resolveAfterTime(time) { 
         return new Promise(resolve => {
           setTimeout(() => {
-            resolve(x);
+            resolve(time);
           }, time);
         });
       }
