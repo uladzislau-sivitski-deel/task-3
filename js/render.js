@@ -14,7 +14,6 @@
         if (text) {
             elem.innerText = text;
         }
-
         return elem;
     }
 

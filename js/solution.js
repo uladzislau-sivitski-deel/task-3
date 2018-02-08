@@ -3,13 +3,7 @@
     var PLAYERS_GUESSES = root.SHRI_CITIES.PLAYERS_GUESSES;
     var COMPUTER_GUESSES = root.SHRI_CITIES.COMPUTER_GUESSES;
     var CITIES = root.SHRI_CITIES.CITIES;
-    /**
-     * Функция находит кол-во островов на карте
-     * ВАЖНО! Сигнатуру функции изменять нельзя!
-     *
-     * @param {number[][]} map карта островов представленная двумерной матрицей чисел
-     * @returns {number} кол-во островов
-     */
+
     function playersMove() {
       let city = document.querySelector('.playersInput').value;
       if(isValidCity(city)){
@@ -42,6 +36,7 @@
     }
 
     function mapInit() {
+        getCities();
         const init = () => { 
             MAP = new ymaps.Map ("map", {
                 center: [55.76, 37.64],
@@ -49,7 +44,6 @@
                 behaviors:['default', 'scrollZoom']
             });
         }
-
         ymaps.ready(init);
     }
 
@@ -57,12 +51,6 @@
         if(!PLAYERS_GUESSES.includes(city) && !COMPUTER_GUESSES.includes(city)) {
             return true;
         }
-        // else {
-        //     fetchCity(city)
-        //     .then((valid) => {
-        //         console.log(valid);
-        //     })
-        // }
     }
 
     function getCities(){
@@ -109,6 +97,7 @@
                 })
             })
     }
+
     root.SHRI_CITIES.playersMove = playersMove;
     root.SHRI_CITIES.mapInit = mapInit;
     root.SHRI_CITIES.fetchCities = fetchCities;
