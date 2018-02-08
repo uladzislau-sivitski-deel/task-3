@@ -87,10 +87,10 @@
                 .then(async json => {
                     CITIES = json;
                     for(letter in CITIES){
-                        let chunks = splitArray(CITIES[letter], 100);
+                        let chunks = splitArray(CITIES[letter], 10);
                         for(let i=0; i < chunks.length; i++) {
                             var x = await checkArrayInYandex(chunks[i]);
-                            resolveAfterTime(3000);
+                            resolveAfterTime(1000);
                         }
                     }
                     console.log(CITIES);
