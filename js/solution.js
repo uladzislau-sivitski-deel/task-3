@@ -96,7 +96,7 @@
                 .then(async json => {
                     CITIES = json;
                     const keys = Object.keys(CITIES);
-                    for(let j = letter; i < keys.length; i++){
+                    for(let j = letter; j < keys.length; j++){
                         let arr = CITIES[keys[j]];
                         for(let i = index; i < arr.length; i++) {
                             try {
