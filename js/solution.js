@@ -1,5 +1,5 @@
 (function (root) {
-    var CITIES = root.SHRI_CITIES.getCities(13, 12296);
+    var CITIES;
     var EXCEPTIONS = root.SHRI_CITIES.EXCEPTIONS;
     var WIKI_URL = root.SHRI_CITIES.WIKI_URL;
     var LIVES = root.SHRI_CITIES.LIVES;
@@ -110,6 +110,7 @@
         if(MAP){MAP.destroy();}
         ymaps.ready(() => { 
             MAP = new ymaps.Map ("map", MAP_STATE);
+            CITIES = root.SHRI_CITIES.getCities(13, 12296);
         });
     }
 
