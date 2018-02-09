@@ -103,7 +103,7 @@
         var myGeocoder = ymaps.geocode(city, { kind: 'locality'});  
         return myGeocoder.then((res) => {
             return res.geoObjects.get(0);
-        }).catch((err) => console.log(error));
+        });
     }
 
     function mapInit(){
