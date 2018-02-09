@@ -90,8 +90,8 @@
             && ((LAST_LETTER && city[0] === LAST_LETTER) || !LAST_LETTER) 
     }
 
-    async function getCities(file, letter, i){
-       fetch(`./js/CITIES-TO-${letter}-${i}.json`)
+    async function getCities(){
+       fetch(`./js/cities.json`)
             .then(response =>  response.json())
                 .then(async json => {
                     CITIES = json;
@@ -104,11 +104,10 @@
                                 if(!x){arr.splice(i, 1);};    
                             } catch (error) {
                                 download(JSON.stringify(CITIES), `CITIES-TO-${letter}-${i}.json`, 'text/plain');
-                                getCities(`CITIES-TO-${letter}-${i}.json`, letter, i);
                             }                                       
                         }
                     }
-                    download(JSON.stringify(CITIES), 'test.txt', 'text/plain');
+                    download(JSON.stringify(CITIES), 'CITIES-TO-${letter}-${i}.json', 'text/plain');
                 });
     }
 
