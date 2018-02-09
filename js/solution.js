@@ -134,17 +134,13 @@
                     for(let j = letter; j < keys.length; j++){
                         let arr = CITIES[keys[j]];
                         for(let i = index; i < arr.length; i++) {
-                                isInYandex(arr[i]).then((res) => {
-                                    if(!x){arr.splice(i, 1);};
-                                    count++;
-                                    if(count === 100){
-                                        count = 0;
-                                        download(JSON.stringify(CITIES), `CITIES-TO-${j}-${i}.json`, 'text/plain');
-                                    }    
-                                }).catch((err) => {
-                                    console.log(err);
-                                });
-                                
+                                var x = await isInYandex(arr[i]);
+                                if(!x){arr.splice(i, 1);};
+                                count++;
+                                if(count === 100){
+                                    count = 0;
+                                    download(JSON.stringify(CITIES), `CITIES-TO-${j}-${i}.json`, 'text/plain');
+                                }    
                             }                                       
                     }
                     download(JSON.stringify(CITIES), 'CITIES-TO-END.json', 'text/plain');
