@@ -7,20 +7,29 @@
     var LAST_LETTER = ''
     var WIKI_URL = root.SHRI_CITIES.WIKI_URL;
 
-    async function playersMove() {
-      let city = document.querySelector('.playersInput').value;
-      isValidCity(city)
-        ? addCityToMap(city, 'blue').then(() => {
-            afterTurn('player', city)
-            setTimeout(() => {
-                computerMove(city);  
-            }, 1000);           
-        })
-        : playerValidation();   
-    }
+    function playersMove() {
+      let city = document.querySelector('.mainInput').value;
+      if(formValidation(city) && isValidCity(city)) {
+            addCityToMap(city, 'blue').then(() => {
+                afterTurn('player', city)
+                setTimeout(() => {
+                    computerMove(city);  
+                }, 1000);           
+            })
+        }
+        return false;
+    }   
 
-    function playerValidation(){
-
+    function formValidation(city){
+        switch (city) {
+            case '':
+                alert('Введите город.');
+                return false;
+                break;
+        
+            default:
+                break;
+        }
     }
 
     function afterTurn(player, city) {
@@ -81,31 +90,26 @@
             && ((LAST_LETTER && city[0] === LAST_LETTER) || !LAST_LETTER) 
     }
 
-    async function getCities(){
-       fetch('./js/cities.json')
+    async function getCities(file, letter, i){
+       fetch(`./js/CITIES-TO-${letter}-${i}.json`)
             .then(response =>  response.json())
                 .then(async json => {
                     CITIES = json;
-                    for(letter in CITIES){
-                        let arr = CITIES[letter];
-                        for(let i=0; i < arr.length; i++) {                         
-                            var x = await isInYandex(arr[i]);
-                            if(!x){
-                                arr.splice(i, 1);
-                            }                     
+                    const keys = Object.keys(CITIES);
+                    for(let j = indexOf(letter); i < keys.length; i++){
+                        let arr = CITIES[keys[j]];
+                        for(let i=0; i < arr.length; i++) {
+                            try {
+                                var x = await isInYandex(arr[i]);
+                                if(!x){arr.splice(i, 1);};    
+                            } catch (error) {
+                                download(JSON.stringify(CITIES), `CITIES-TO-${letter}-${i}.json`, 'text/plain');
+                                getCities(`CITIES-TO-${letter}-${i}.json`, letter, i);
+                            }                                       
                         }
                     }
                     download(JSON.stringify(CITIES), 'test.txt', 'text/plain');
                 });
-    }
-
-
-    function splitArray(arr, chunkSize) {
-        let chunks = [], i;
-        for (i = 0; i < arr.length; i += chunkSize) {
-            chunks.push(arr.slice(i, i + chunkSize));
-        }
-        return chunks;
     }
 
     function download(text, name, type) {
@@ -115,14 +119,6 @@
         a.download = name;
         a.click();
     }
-
-    function resolveAfterTime(time) { 
-        return new Promise(resolve => {
-          setTimeout(() => {
-            resolve(time);
-          }, time);
-        });
-      }
 
     function fetchCities(url) {
             promise = fetch(url)

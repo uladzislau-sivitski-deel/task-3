@@ -23,11 +23,16 @@
      */
     function render() {
         const containerElem = element('div', 'container');
-        containerElem.appendChild(element('input', 'playersInput'));
+
+        const form = element('form', 'mainForm');
+        const input = element('input', 'mainInput');        
+        const button = element('button', 'mainButton', 'OK');
+
+        form.appendChild(input);        
+        form.appendChild(button);
+        form.onsubmit = () => root.SHRI_CITIES.playersMove();
         
-        const button = element('button', 'playersButton', 'OK');
-        button.onclick = () => root.SHRI_CITIES.playersMove();
-        containerElem.appendChild(button);
+        containerElem.appendChild(form);
 
         return containerElem;
     }
