@@ -43,7 +43,7 @@
 
 .heart:before {
   content: '\01F493';
-  font-size: calc(20px + 1vw);
+  font-size: 25px;
 }
 
 .heart.lost:before {

@@ -1,13 +1,14 @@
 (function (root) {
-    var PLAYERS_GUESSES = root.SHRI_CITIES.PLAYERS_GUESSES;
-    var COMPUTER_GUESSES = root.SHRI_CITIES.COMPUTER_GUESSES;
-    var CITIES = root.SHRI_CITIES.CITIES;
+    var CITIES = root.SHRI_CITIES.getCities();
     var EXCEPTIONS = root.SHRI_CITIES.EXCEPTIONS;
     var WIKI_URL = root.SHRI_CITIES.WIKI_URL;
     var LIVES = root.SHRI_CITIES.LIVES;
     var MAP_STATE = root.SHRI_CITIES.MAP_STATE
+
     var MAP;
-    var LAST_LETTER = ''
+    var LAST_LETTER = '';
+    var PLAYERS_GUESSES = [];
+    var COMPUTER_GUESSES = [];
     
 
     function playersMove() {
@@ -61,8 +62,12 @@
                 alert(`Ваш город должен начинаться с буквы '${LAST_LETTER}'`);
                 return false;
                 break;
-            case (LAST_LETTER && city[0] !== LAST_LETTER):
-                alert(`Ваш город должен начинаться с буквы '${LAST_LETTER}'`);
+            case (PLAYERS_GUESSES.includes(city[0]) || COMPUTER_GUESSES.includes(city[0]) ):
+                alert(`Такой город уже назывался!`);
+                return false;
+                break;
+            case (CITIES[city[0]].includes(city)):
+                alert(`К сожалению, мы не знаем про такой город.`);
                 return false;
                 break;
             default:
@@ -109,14 +114,10 @@
     }
 
     function mapInit(){
-        if(MAP){
-            MAP.destroy();            
-        }
-        const init = () => { 
+        if(MAP){MAP.destroy();}
+        ymaps.ready(() => { 
             MAP = new ymaps.Map ("map", MAP_STATE);
-            getCities(2, 7996);
-        }
-        ymaps.ready(init);
+        });
     }
 
     function isValidCity(city) {
@@ -124,67 +125,6 @@
             && !PLAYERS_GUESSES.includes(city)
             && !COMPUTER_GUESSES.includes(city)
             && ((LAST_LETTER && city[0] === LAST_LETTER) || !LAST_LETTER) 
-    }
-
-    async function getCities(letter, index, ){
-       fetch(`./js/cities.json`)
-            .then(response =>  response.json())
-                .then(async json => {
-                    CITIES = json;
-                    let count = 0;                    
-                    const keys = Object.keys(CITIES);
-                    for(let j = letter; j < keys.length; j++){
-                        let arr = CITIES[keys[j]];
-                        for(let i = index; i < arr.length; i++) {
-                                var x = await isInYandex(arr[i]);
-                                if(!x){arr.splice(i, 1);};
-                                count++;
-                                if(count === 100){
-                                    count = 0;
-                                    download(JSON.stringify(CITIES), `CITIES-TO-${j}-${i}.json`, 'text/plain');
-                                }    
-                            }                                       
-                    }
-                    download(JSON.stringify(CITIES), 'CITIES-TO-END.json', 'text/plain');
-                });
-    }
-
-    function download(text, name, type) {
-        var a = document.createElement("a");
-        var file = new Blob([text], {type: type});
-        a.href = URL.createObjectURL(file);
-        a.download = name;
-        a.click();
-    }
-
-    function fetchCities(url) {
-            promise = fetch(url)
-            .then(response => {
-                response.json()
-                .then(async response => {
-                    response.query.categorymembers.map(city => {
-                        city = city.title.replace(/\s?\(.+\)\s?/, '');
-                        const firstLetter = city[0];
-                        const lastLetter = city[city.length - 1];
-                        if(firstLetter.match(/[А-Я]/) && lastLetter.match(/[а-я]/)) {
-                            if (!CITIES[firstLetter]) {
-                                CITIES[firstLetter] = [];
-                            }
-                            if (!CITIES[firstLetter].includes(city)){
-                                CITIES[firstLetter].push(city);
-                            }
-                        }
-                        return city;
-                    });
-                    if(response.query.categorymembers.length === 500) {
-                        let newUrl = `${url.replace(/&cmcontinue.+/, '')}&cmcontinue=${response.continue.cmcontinue}`;
-                        fetchCities(newUrl);
-                    }
-                    else {
-                        download(JSON.stringify(CITIES), 'test.txt', 'text/plain');
-                    }
-                })
-            })
     }
 
     root.SHRI_CITIES.playersMove = playersMove;
