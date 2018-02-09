@@ -112,7 +112,7 @@
         }
         const init = () => { 
             MAP = new ymaps.Map ("map", MAP_STATE);
-            getCities(2, 2941);
+            getCities(2, 3699);
         }
         ymaps.ready(init);
     }
