@@ -9,10 +9,6 @@
         zoom: 3,
         behaviors:['default', 'scrollZoom'],
     }
-    
-
-    root.SHRI_CITIES.MAP = {};
-    root.SHRI_CITIES.MAP = {};
     root.SHRI_CITIES.PLAYERS_GUESSES = [];
     root.SHRI_CITIES.COMPUTER_GUESSES = [];
     root.SHRI_CITIES.CITIES = {};

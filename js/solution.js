@@ -1,5 +1,4 @@
 (function (root) {
-    var MAP = root.SHRI_CITIES.MAP;
     var PLAYERS_GUESSES = root.SHRI_CITIES.PLAYERS_GUESSES;
     var COMPUTER_GUESSES = root.SHRI_CITIES.COMPUTER_GUESSES;
     var CITIES = root.SHRI_CITIES.CITIES;
@@ -7,6 +6,7 @@
     var WIKI_URL = root.SHRI_CITIES.WIKI_URL;
     var LIVES = root.SHRI_CITIES.LIVES;
     var MAP_STATE = root.SHRI_CITIES.MAP_STATE
+    var MAP;
     var LAST_LETTER = ''
     
 
@@ -41,12 +41,12 @@
     }
 
     function newGame(){
+        mapInit();        
+        document.querySelector('.result').remove();
         LIVES = root.SHRI_CITIES.LIVES;
-        mapInit();
         PLAYERS_GUESSES = root.SHRI_CITIES.PLAYERS_GUESSES;
         COMPUTER_GUESSES = root.SHRI_CITIES.COMPUTER_GUESSES;
         LAST_LETTER = '';
-        
     }
 
     function formValidation(city){
@@ -107,6 +107,9 @@
     }
 
     function mapInit(){
+        if(MAP){
+            MAP.destroy();            
+        }
         const init = () => { 
             MAP = new ymaps.Map ("map", MAP_STATE);
             getCities(2, 2941);
@@ -181,6 +184,6 @@
     }
 
     root.SHRI_CITIES.playersMove = playersMove;
+    root.SHRI_CITIES.newGame = newGame;
     root.SHRI_CITIES.mapInit = mapInit;
-    root.SHRI_CITIES.getCities = getCities;
 })(this);

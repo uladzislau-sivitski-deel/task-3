@@ -57,27 +57,31 @@
     }
 
     function renderResults(playerResults, computerResults){
-        const resultContainer = element('div', 'results');
-        const playerResultsUlContainer = element('div', 'results');
-        const computerResultsUlContainer = element('div', 'results');
-        const playerResultsUl = element('ul', 'resultList');
-        const computerResultsUl = element('ul', 'resultList');
+        const resultContainer = element('div', 'result');
+        const playerResultsUlContainer = element('div', 'result-list-container');
+        const computerResultsUlContainer = element('div', 'result-list-container');
+        const playerResultsUl = element('ul', 'result-list');
+        const computerResultsUl = element('ul', 'result-list');
 
 
-        playerResultsUlContainer.appendChild(element('span', 'resultLabel', 'Названные вами города.'));
+        playerResultsUlContainer.appendChild(element('span', 'result-label', 'Названные вами города.'));
         for (let i = 0; i < playerResults.length; i++) {
-            playerResultsUl.appendChild(element('li', 'listItem', playerResults[i]));
+            playerResultsUl.appendChild(element('li', 'list-item', playerResults[i]));
         }
         playerResultsUlContainer.appendChild(playerResultsUl);
 
-        computerResultsUlContainer.appendChild(element('span', 'resultLabel', 'Названные компьютером города.'));        
+        computerResultsUlContainer.appendChild(element('span', 'result-label', 'Названные компьютером города.'));        
         for (let i = 0; i < computerResults.length; i++) {
-            computerResultsUl.appendChild(element('li', 'listItem', playerResults[i]));
+            computerResultsUl.appendChild(element('li', 'list-item', playerResults[i]));
         }
         computerResultsUlContainer.appendChild(computerResultsUl);
         
+        const button = element('button', 'new-game-button', 'Cыграть еще раз!');
+        button.onclick = () => { root.SHRI_CITIES.newGame() };
+
 
         resultContainer.appendChild(playerResultsUlContainer);
+        resultContainer.appendChild(button);
         resultContainer.appendChild(computerResultsUlContainer);
 
         return resultContainer;

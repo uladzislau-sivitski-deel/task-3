@@ -18,10 +18,20 @@
 
 .map {
   width: 100%;
-  height: 90vh
+  height: 75vh
 }
 
 .result {
   display: flex;
   justify-content: space-around;
+}
+
+.result-list {
+  height: 10vh;
+  overflow-y: scroll;
+}
+
+.new-game-button{
+  height: 25px;
+  margin-top: 5vh;
 }
