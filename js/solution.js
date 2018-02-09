@@ -30,6 +30,8 @@
 
     function gameOver(){
         --LIVES;
+        document.querySelectorAll('.heart')[LIVES].classList.add('lost');   
+        
         if(!LIVES){
             let container = document.querySelector('.container');
             container.insertBefore(
@@ -46,6 +48,7 @@
         PLAYERS_GUESSES = root.SHRI_CITIES.PLAYERS_GUESSES;
         COMPUTER_GUESSES = root.SHRI_CITIES.COMPUTER_GUESSES;
         LAST_LETTER = '';
+        document.querySelectorAll('.heart').forEach((heart) => {heart.classList.remove('lost')})
     }
 
     function formValidation(city){
@@ -111,7 +114,7 @@
         }
         const init = () => { 
             MAP = new ymaps.Map ("map", MAP_STATE);
-            getCities(2, 6097);
+            getCities(2, 7996);
         }
         ymaps.ready(init);
     }

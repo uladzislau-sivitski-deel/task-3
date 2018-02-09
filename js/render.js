@@ -48,6 +48,13 @@
 
         form.appendChild(input);        
         form.appendChild(button);
+        
+        const lives = element('div', 'lives')
+        lives.appendChild(element('span', 'heart'));
+        lives.appendChild(element('span', 'heart'));
+        lives.appendChild(element('span', 'heart'));
+        form.appendChild(lives);
+
         form.onsubmit = () => root.SHRI_CITIES.playersMove();
         
         containerElem.appendChild(form);
