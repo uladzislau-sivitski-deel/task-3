@@ -11,7 +11,6 @@
     
 
     function playersMove() {
-        gameOver();
         let city = document.querySelector('.mainInput').value;
         formValidation(city) && isValidCity(city)
         ? succesfullTurn()
@@ -112,7 +111,7 @@
         }
         const init = () => { 
             MAP = new ymaps.Map ("map", MAP_STATE);
-            getCities(2, 4398);
+            getCities(2, 6097);
         }
         ymaps.ready(init);
     }
