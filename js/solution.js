@@ -124,22 +124,24 @@
             && ((LAST_LETTER && city[0] === LAST_LETTER) || !LAST_LETTER) 
     }
 
-    async function getCities(letter, index){
+    async function getCities(letter, index, ){
        fetch(`./js/cities.json`)
             .then(response =>  response.json())
                 .then(async json => {
                     CITIES = json;
+                    let count = 0;                    
                     const keys = Object.keys(CITIES);
                     for(let j = letter; j < keys.length; j++){
                         let arr = CITIES[keys[j]];
                         for(let i = index; i < arr.length; i++) {
-                            try {
                                 var x = await isInYandex(arr[i]);
-                                if(!x){arr.splice(i, 1);};    
-                            } catch (error) {
-                                download(JSON.stringify(CITIES), `CITIES-TO-${j}-${i}.json`, 'text/plain');
+                                if(!x){arr.splice(i, 1);};
+                                count++;
+                                if(count === 100){
+                                    count = 0;
+                                    download(JSON.stringify(CITIES), `CITIES-TO-${j}-${i}.json`, 'text/plain');
+                                }    
                             }                                       
-                        }
                     }
                     download(JSON.stringify(CITIES), 'CITIES-TO-END.json', 'text/plain');
                 });
