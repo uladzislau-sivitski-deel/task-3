@@ -106,13 +106,6 @@
         })
     }
 
-    function isInYandex(city){
-        var myGeocoder = ymaps.geocode(city, { kind: 'locality'});  
-        return myGeocoder.then((res) => {
-            return res.geoObjects.get(0);
-        });
-    }
-
     function mapInit(){
         if(MAP){MAP.destroy();}
         ymaps.ready(() => { 

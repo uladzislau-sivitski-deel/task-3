@@ -22,6 +22,13 @@
                 });
     }
 
+    function isInYandex(city){
+        var myGeocoder = ymaps.geocode(city, { kind: 'locality'});  
+        return myGeocoder.then((res) => {
+            return res.geoObjects.get(0);
+        });
+    }
+
     function download(text, name, type) {
         var a = document.createElement("a");
         var file = new Blob([text], {type: type});
