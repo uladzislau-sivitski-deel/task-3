@@ -78,7 +78,7 @@
                 behaviors:['default', 'scrollZoom']
             });
             //fetchCities(WIKI_URL); 
-            getCities(); 
+            getCities(0, 0); 
         }
         ymaps.ready(init);
     }
@@ -90,24 +90,24 @@
             && ((LAST_LETTER && city[0] === LAST_LETTER) || !LAST_LETTER) 
     }
 
-    async function getCities(){
+    async function getCities(letter, index){
        fetch(`./js/cities.json`)
             .then(response =>  response.json())
                 .then(async json => {
                     CITIES = json;
                     const keys = Object.keys(CITIES);
-                    for(let j = indexOf(letter); i < keys.length; i++){
+                    for(let j = letter; i < keys.length; i++){
                         let arr = CITIES[keys[j]];
-                        for(let i=0; i < arr.length; i++) {
+                        for(let i = index; i < arr.length; i++) {
                             try {
                                 var x = await isInYandex(arr[i]);
                                 if(!x){arr.splice(i, 1);};    
                             } catch (error) {
-                                download(JSON.stringify(CITIES), `CITIES-TO-${letter}-${i}.json`, 'text/plain');
+                                download(JSON.stringify(CITIES), `CITIES-TO-${j}-${i}.json`, 'text/plain');
                             }                                       
                         }
                     }
-                    download(JSON.stringify(CITIES), 'CITIES-TO-${letter}-${i}.json', 'text/plain');
+                    download(JSON.stringify(CITIES), 'CITIES-TO-END.json', 'text/plain');
                 });
     }
 
