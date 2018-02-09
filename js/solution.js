@@ -86,9 +86,25 @@
             .then(response =>  response.json())
                 .then(async json => {
                     CITIES = json;
+                    for(letter in CITIES){
+                        let chunks = splitArray(CITIES[letter], 5);
+                        for(let i=0; i < chunks.length; i++) {                         
+                            var x = await checkArrayInYandex(chunks[i]);
+                            var wait2 = resolveAfterTime(3000);                            
+                        }
+                    }
+                    console.log(CITIES);
                 });
     }
 
+
+    function splitArray(arr, chunkSize) {
+        let chunks = [], i;
+        for (i = 0; i < arr.length; i += chunkSize) {
+            chunks.push(arr.slice(i, i + chunkSize));
+        }
+        return chunks;
+    }
 
     function download(text, name, type) {
         var a = document.createElement("a");
@@ -97,6 +113,14 @@
         a.download = name;
         a.click();
     }
+
+    function resolveAfterTime(time) { 
+        return new Promise(resolve => {
+          setTimeout(() => {
+            resolve(time);
+          }, time);
+        });
+      }
 
     function fetchCities(url) {
             promise = fetch(url)
@@ -126,6 +150,15 @@
                     }
                 })
             })
+    }
+
+    async function checkArrayInYandex(cities) {
+        return Promise.all(cities.map(async (city) => {
+            const inYandex = await isInYandex(city);
+            if(!inYandex){
+                CITIES[city[0]].splice(CITIES[city[0]].indexOf(city), 1);
+            }
+        }));   
     }
 
     root.SHRI_CITIES.playersMove = playersMove;
