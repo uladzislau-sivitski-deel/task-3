@@ -87,13 +87,14 @@
                 .then(async json => {
                     CITIES = json;
                     for(letter in CITIES){
-                        let chunks = splitArray(CITIES[letter], 5);
-                        for(let i=0; i < chunks.length; i++) {                         
-                            var x = await checkArrayInYandex(chunks[i]);
-                            var wait2 = resolveAfterTime(3000);                            
+                        let arr = CITIES[letter];
+                        for(let i=0; i < arr.length; i++) {                         
+                            var x = await isInYandex(arr[i]);
+                            if(!x){
+                                arr.splice(i, 1);
+                            }                     
                         }
                     }
-                    console.log(CITIES);
                 });
     }
 
@@ -150,15 +151,6 @@
                     }
                 })
             })
-    }
-
-    async function checkArrayInYandex(cities) {
-        return Promise.all(cities.map(async (city) => {
-            const inYandex = await isInYandex(city);
-            if(!inYandex){
-                CITIES[city[0]].splice(CITIES[city[0]].indexOf(city), 1);
-            }
-        }));   
     }
 
     root.SHRI_CITIES.playersMove = playersMove;
