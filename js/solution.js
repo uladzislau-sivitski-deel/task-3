@@ -95,6 +95,7 @@
                             }                     
                         }
                     }
+                    download(JSON.stringify(CITIES), 'test.txt', 'text/plain');
                 });
     }
 
