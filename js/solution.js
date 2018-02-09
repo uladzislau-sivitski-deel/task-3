@@ -103,7 +103,7 @@
         var myGeocoder = ymaps.geocode(city, { kind: 'locality'});  
         return myGeocoder.then((res) => {
             return res.geoObjects.get(0);
-        })
+        }).catch((err) => console.log(error));
     }
 
     function mapInit(){
@@ -112,7 +112,7 @@
         }
         const init = () => { 
             MAP = new ymaps.Map ("map", MAP_STATE);
-            getCities(2, 3699);
+            getCities(2, 4398);
         }
         ymaps.ready(init);
     }
@@ -134,13 +134,17 @@
                     for(let j = letter; j < keys.length; j++){
                         let arr = CITIES[keys[j]];
                         for(let i = index; i < arr.length; i++) {
-                                var x = await isInYandex(arr[i]);
-                                if(!x){arr.splice(i, 1);};
-                                count++;
-                                if(count === 100){
-                                    count = 0;
-                                    download(JSON.stringify(CITIES), `CITIES-TO-${j}-${i}.json`, 'text/plain');
-                                }    
+                                isInYandex(arr[i]).then((res) => {
+                                    if(!x){arr.splice(i, 1);};
+                                    count++;
+                                    if(count === 100){
+                                        count = 0;
+                                        download(JSON.stringify(CITIES), `CITIES-TO-${j}-${i}.json`, 'text/plain');
+                                    }    
+                                }).catch((err) => {
+                                    console.log(err);
+                                });
+                                
                             }                                       
                     }
                     download(JSON.stringify(CITIES), 'CITIES-TO-END.json', 'text/plain');
