@@ -1,5 +1,5 @@
 (function (root) {
-    var CITIES = root.SHRI_CITIES.getCities(2, 10795);
+    var CITIES = root.SHRI_CITIES.getCities(2, 11795);
     var EXCEPTIONS = root.SHRI_CITIES.EXCEPTIONS;
     var WIKI_URL = root.SHRI_CITIES.WIKI_URL;
     var LIVES = root.SHRI_CITIES.LIVES;
