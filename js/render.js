@@ -49,15 +49,18 @@
         form.appendChild(input);        
         form.appendChild(button);
 
-        const lives = element('div', 'lives')
+        const lives = element('div', 'lives');
+        const hintButton = element('button', 'hint-button', 'Взять подсказку.');
+        hintButton.onclick = () => root.SHRI_CITIES.getHint();
+        lives.appendChild(hintButton);
         lives.appendChild(element('span', 'heart'));
         lives.appendChild(element('span', 'heart'));
         lives.appendChild(element('span', 'heart'));
-        form.appendChild(lives);
 
         form.onsubmit = () => root.SHRI_CITIES.playersMove();
         
         containerElem.appendChild(form);
+        containerElem.appendChild(lives);
         containerElem.appendChild(map);
         
         return containerElem;

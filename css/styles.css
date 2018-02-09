@@ -42,10 +42,12 @@
 }
 
 .heart:before {
-  content: '\01F493';
+  content: '\01F4A1';
   font-size: 25px;
+  color: yellow;
 }
 
 .heart.lost:before {
   content: '\01F494';
+  color: black;
 }
