@@ -22,9 +22,12 @@
                 });
     }
 
-    function getCities(){
-        return fetch(`./js/cities.json`)
-             .then(response =>  response.json());
+    function getCities(cities){
+        fetch(`./js/cities.json`)
+             .then(response =>  response.json())
+             .then(json => {
+                 cities = json
+                })
      }
 
     function isInYandex(city){
