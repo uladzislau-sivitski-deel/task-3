@@ -17,7 +17,7 @@
     function playersMove() {
         let city = document.querySelector('.mainInput').value;
         formValidation(city) && isValidCity(city)
-        ? succesfullTurn()
+        ? succesfullTurn(city)
         : gameOver();
         
         return false;
@@ -87,7 +87,7 @@
     }
 
     function computerMove() {
-        let city = CITIES[LAST_LETTER].filter(city => isValidCity(city));
+        let city = CITIES[LAST_LETTER].find(city => isValidCity(city));
         addCityToMap(city, 'red').then(() => {
             afterTurn('computer', city)
         })
