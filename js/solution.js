@@ -64,7 +64,7 @@
 
     async function getHint() {
         let city = await getNextCity();
-        document.querySelectorAll('.hint')[HINTS].classList.add('taken');       
+        document.querySelectorAll('.hint')[HINTS - 1].classList.add('taken');       
         document.querySelector('.mainInput').value = city;
         if(!--HINTS){
             document.querySelector('.hints').classList.add('display-none');          
