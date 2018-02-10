@@ -73,4 +73,5 @@
     }
 
     root.SHRI_CITIES.getCities = getCities;
+    root.SHRI_CITIES.isInYandex = isInYandex;
 })(this);

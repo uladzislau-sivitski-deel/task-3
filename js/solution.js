@@ -22,11 +22,26 @@
         return false;
     }   
 
-    function computerMove() {
-        let city = CITIES[LAST_LETTER].find(city => isValidCity(city));
+    async function computerMove() {
+        let city = await getNextCity();
         addCityToMap(city, 'red').then(() => {
             afterTurn('computer', city)
         })
+    }
+
+    async function getNextCity(){
+        let city;
+        let arr = CITIES[LAST_LETTER];
+        while(!city){
+            let possibleMatch = arr[Math.floor(Math.random()*arr.length)];
+            if(isValidCity(possibleMatch)){
+                var inYandex = await root.SHRI_CITIES.isInYandex(possibleMatch);
+                if(inYandex){
+                    city = arr[Math.floor(Math.random()*arr.length)];                                    
+                }
+            }
+        }
+        return city;
     }
 
     function succesfullTurn(city) {
@@ -47,12 +62,12 @@
         );
     }
 
-    function getHint() {
+    async function getHint() {
         --HINTS;
         if(HINTS){
+            let city = await getNextCity();
             document.querySelectorAll('.hint')[HINTS].classList.add('taken');       
-            document.querySelector('.mainInput').value = 
-            CITIES[LAST_LETTER || 'А'].find(city => isValidCity(city));
+            document.querySelector('.mainInput').value = city;
         }
         else {
             document.querySelector('.hints').classList.add('display-none');                         
