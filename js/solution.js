@@ -14,10 +14,13 @@
     var COMPUTER_GUESSES = [];
     
 
-    function playersMove() {
+    async function playersMove() {
         let city = document.querySelector('.mainInput').value;
-        if(formValidation(city) && isValidCity(city)) {
-            succesfullTurn(city)
+        if(formValidation(city)) {
+            let valid = await isValidCity(city);
+            if(valid){
+                succesfullTurn(city)                
+            }
         }
         return false;
     }   
