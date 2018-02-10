@@ -17,11 +17,9 @@
     async function playersMove(e) {
         e.preventDefault();
         let city = document.querySelector('.mainInput').value;
-        if(formValidation(city)) {
-            let valid = await isValidCity(city);
-            if(valid){
-                succesfullTurn(city);
-            }
+        let validInput = await formValidation(city);
+        if(validInput && isValidCity(city)) {
+            succesfullTurn(city);
         }
         return false;        
     }   
