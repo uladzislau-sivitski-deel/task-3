@@ -24,8 +24,7 @@
 
     async function getCities(){
         fetch(`./js/cities.json`)
-             .then(response =>  response.json())
-                 .then(json => json);
+             .then(response =>  response.json());
      }
 
     function isInYandex(city){
