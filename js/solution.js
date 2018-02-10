@@ -53,7 +53,8 @@
             afterTurn('player', city);
             setTimeout(() => {
                 computerMove(city);  
-            }, 2000);           
+            }, 2000);   
+            return false;        
         })
     }
 
