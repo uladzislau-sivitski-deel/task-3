@@ -31,7 +31,7 @@
 
     async function getNextCity(){
         let city;
-        let arr = CITIES[LAST_LETTER];
+        let arr = CITIES[LAST_LETTER || 'А'];
         while(!city){
             let possibleMatch = arr[Math.floor(Math.random()*arr.length)];
             if(isValidCity(possibleMatch)){
