@@ -22,8 +22,8 @@
                 });
     }
 
-    async function getCities(){
-        fetch(`./js/cities.json`)
+    function getCities(){
+        return fetch(`./js/cities.json`)
              .then(response =>  response.json());
      }
 
