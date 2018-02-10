@@ -22,7 +22,7 @@
 
     async function playersMove(e) {
         e.preventDefault();
-        let city = document.querySelector('.mainInput').value;
+        let city = document.querySelector('.main-input').value;
         let validInput = await formValidation(city);
         if(validInput && isValidCity(city)) {
             succesfullTurn(city);
@@ -73,7 +73,7 @@
     async function getHint() {
         let city = await getNextCity();
         document.querySelectorAll('.hint')[HINTS - 1].classList.add('taken');       
-        document.querySelector('.mainInput').value = city;
+        document.querySelector('.main-input').value = city;
         if(!--HINTS){
             document.querySelector('.hints').classList.add('display-none');          
         }
@@ -86,23 +86,13 @@
         PLAYERS_GUESSES = [];
         COMPUTER_GUESSES = [];
         LAST_LETTER = '';
-        document.querySelector('.mainInput').value = '';
+        document.querySelector('.main-input').value = '';
         document.querySelector('.interface').classList.remove('display-none');        
         document.querySelector('.hints').classList.remove('display-none');
         document.querySelectorAll('.hint').forEach(hint => {hint.classList.remove('taken')});
     }
 
     async function formValidation(city){
-        let notInBase = false;
-        if(!CITIES[city[0]].includes(city)){
-            notInBase = true;
-        }
-        else {
-            let inYandex = await root.SHRI_CITIES.isInYandex(city);
-            if(!inYandex) {
-                notInBase = true;
-            }
-        }
         if (city === '') {
             alert('Введите город.');
             return false;
@@ -114,6 +104,16 @@
         if (PLAYERS_GUESSES.includes(city) || COMPUTER_GUESSES.includes(city) ){
             alert(`Такой город уже назывался!`);
             return false;
+        }
+        let notInBase = false;
+        if(!CITIES[city[0]].includes(city)){
+            notInBase = true;
+        }
+        else {
+            let inYandex = await root.SHRI_CITIES.isInYandex(city);
+            if(!inYandex) {
+                notInBase = true;
+            }
         }
         if (notInBase){
             alert(`К сожалению, мы не знаем про такой город.`);
@@ -129,7 +129,7 @@
         }
         else {
             COMPUTER_GUESSES.push(city);
-            document.querySelector('.mainInput').value = LAST_LETTER;
+            document.querySelector('.main-input').value = LAST_LETTER;
         }
     }
 
@@ -171,7 +171,7 @@
         var last = event.results.length - 1;
         var city = event.results[last][0].transcript.split(' ')[0];
         city[0] = city[0].toUpperCase();
-        document.querySelector('.mainInput').value = city;        
+        document.querySelector('.main-input').value = city;        
     }
 
     recognition.onspeechend = function() {

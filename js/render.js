@@ -38,19 +38,18 @@
         const interfaceElem = element('div', 'interface');
         const surrenderButton = element('button', 'surrender-button', 'Сдаться.');
         surrenderButton.onclick = () => root.SHRI_CITIES.showResults();
-
-        const speakButton = element('button', 'speak-button', 'Голос.');
-        speakButton.onclick = () => root.SHRI_CITIES.speech();
         interfaceElem.appendChild(renderForm());
         interfaceElem.appendChild(surrenderButton);
-        interfaceElem.appendChild(speakButton);
         interfaceElem.appendChild(renderHints());
         return interfaceElem;
     }
 
     function renderForm() {
-        const form = element('form', 'mainForm');
-        const input = element('input', 'mainInput');
+        const form = element('form', 'main-form');
+        const container = element('div', 'form-container');
+        const microphone = element('i', 'fas fa-microphone');
+        microphone.onclick = () => root.SHRI_CITIES.speech();
+        const input = element('input', 'main-input');
         input.pattern = '[А-Я]{1}[А-Яа-я-?\'?\s?]+';
 
         const check = () => {
@@ -62,10 +61,12 @@
         }
         input.oninput = () => check();
         
-        const button = element('button', 'mainButton', 'OK');
+        const button = element('button', 'main-button', 'OK');
 
-        form.appendChild(input);        
-        form.appendChild(button);
+        container.appendChild(input);
+        container.appendChild(microphone);       
+        container.appendChild(button);
+        form.appendChild(container);
         form.onsubmit = (e) => root.SHRI_CITIES.playersMove(e);
         
         return form;
