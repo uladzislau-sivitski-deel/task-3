@@ -19,10 +19,12 @@
         if(formValidation(city)) {
             let valid = await isValidCity(city);
             if(valid){
-                succesfullTurn(city)                
+                succesfullTurn(city).then(() => {
+                    return false;
+                });                
             }
         }
-        return false;
+        return false;        
     }   
 
     async function computerMove() {
