@@ -63,14 +63,11 @@
     }
 
     async function getHint() {
-        --HINTS;
-        if(HINTS){
-            let city = await getNextCity();
-            document.querySelectorAll('.hint')[HINTS].classList.add('taken');       
-            document.querySelector('.mainInput').value = city;
-        }
-        else {
-            document.querySelector('.hints').classList.add('display-none');                         
+        let city = await getNextCity();
+        document.querySelectorAll('.hint')[HINTS].classList.add('taken');       
+        document.querySelector('.mainInput').value = city;
+        if(!--HINTS){
+            document.querySelector('.hints').classList.add('display-none');          
         }
     }
 
@@ -86,7 +83,17 @@
         document.querySelectorAll('.hint').forEach(hint => {hint.classList.remove('taken')});
     }
 
-    function formValidation(city){
+    async function formValidation(city){
+        let notInBase = false;
+        if(!CITIES[city[0]].includes(city)){
+            notInBase = true;
+        }
+        else {
+            let inYandex = await root.SHRI_CITIES.isInYandex(city);
+            if(!inYandex) {
+                notInBase = true;
+            }
+        }
         switch (city) {
             case '':
                 alert('Введите город.');
@@ -100,7 +107,7 @@
                 alert(`Такой город уже назывался!`);
                 return false;
                 break;
-            case (!CITIES[city[0]].includes(city)):
+            case (notInBase):
                 alert(`К сожалению, мы не знаем про такой город.`);
                 return false;
                 break;
