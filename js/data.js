@@ -1,5 +1,5 @@
 (function (root) {
-    async function getCities(letter, index){
+    async function checkCities(letter, index){
        fetch(`./js/cities.json`)
             .then(response =>  response.json())
                 .then(async json => {
@@ -21,6 +21,12 @@
                     download(JSON.stringify(CITIES), 'CITIES-TO-END.json', 'text/plain');
                 });
     }
+
+    async function getCities(){
+        fetch(`./js/cities.json`)
+             .then(response =>  response.json())
+                 .then(json => json);
+     }
 
     function isInYandex(city){
         var myGeocoder = ymaps.geocode(city, { kind: 'locality'});  
