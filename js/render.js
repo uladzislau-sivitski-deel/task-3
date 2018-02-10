@@ -28,20 +28,33 @@
      */
     function render() {
         const containerElem = element('div', 'container');
-        const interfacelem = element('div', 'interface');
-
         const map = element('div', 'map', '', 'map');
+        containerElem.appendChild(renderInterface());
+        containerElem.appendChild(map);
+        return containerElem;
+    }
+
+    function renderInterface() {
+        const interfaceElem = element('div', 'interface');
+        const surrenderButton = element('button', 'surrender-button', 'Сдаться.');
+        surrenderButton.onclick = () => root.SHRI_CITIES.showResults();
+        interfaceElem.appendChild(renderForm());
+        interfaceElem.appendChild(surrenderButton);
+        interfaceElem.appendChild(renderHints());
+        return interfaceElem;
+    }
+
+    function renderForm() {
         const form = element('form', 'mainForm');
         const input = element('input', 'mainInput');
-        
-        input.pattern = '[А-Я]{1}[А-Яа-я-?\'?]+'; 
+        input.pattern = '[А-Я]{1}[А-Яа-я-?\'?\s?]+'; 
 
         const check = () => {
             if (input.validity.patternMismatch) {
                 input.setCustomValidity("Город должен быть на русском языке и начинаться с большой буквы!");
-              } else {
+            } else {
                 input.setCustomValidity("");
-              }
+            }
         }
         input.oninput = () => check();
         
@@ -49,29 +62,23 @@
 
         form.appendChild(input);        
         form.appendChild(button);
+        form.onsubmit = (e) => root.SHRI_CITIES.playersMove(e);
+        
+        return form;
+    }
 
+    function renderHints() {
         const hints = element('div', 'hints');
         const hintButton = element('button', 'hint-button', 'Взять подсказку.');
         hintButton.onclick = () => root.SHRI_CITIES.getHint();
         hints.appendChild(hintButton);
-        hints.appendChild(element('span', 'hint'));
-        hints.appendChild(element('span', 'hint'));
-        hints.appendChild(element('span', 'hint'));
-
-        const surrenderButton = element('button', 'surrender-button', 'Сдаться.');
-        surrenderButton.onclick = () => root.SHRI_CITIES.showResults();
-
-        form.onsubmit = (e) => root.SHRI_CITIES.playersMove(e);
-
-        interfacelem.appendChild(form);
-        interfacelem.appendChild(surrenderButton);
-        interfacelem.appendChild(hints);
-        containerElem.appendChild(interfacelem);
-        containerElem.appendChild(map);
-        return containerElem;
+        for (let i = 0; i < 3; i++) {
+            hints.appendChild(element('span', 'hint'));
+        }
+        return hints;
     }
 
-    function makeList(arr, label) {
+    function renderList(arr, label) {
         const listContainer = element('div', 'result-list-container');        
         const list = element('list', 'result-list');
         listContainer.appendChild(element('span', 'result-label', label));
@@ -85,8 +92,8 @@
 
     function renderResults(playerResults, computerResults){
         const resultContainer = element('div', 'result');
-        const playerResultsUlContainer = makeList(playerResults, 'Названные вами города.')
-        const computerResultsUlContainer = makeList(computerResults, 'Названные компьютером города.');        
+        const playerResultsUlContainer = renderList(playerResults, 'Названные вами города.')
+        const computerResultsUlContainer = renderList(computerResults, 'Названные компьютером города.');        
 
         const button = element('button', 'new-game-button', 'Cыграть еще раз!');
         button.onclick = () => { root.SHRI_CITIES.newGame() };
