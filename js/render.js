@@ -40,7 +40,7 @@
         surrenderButton.onclick = () => root.SHRI_CITIES.showResults();
 
         const speakButton = element('button', 'speak-button', 'Голос.');
-        surrenderButton.onclick = () => root.SHRI_CITIES.speech();
+        speakButton.onclick = () => root.SHRI_CITIES.speech();
         interfaceElem.appendChild(renderForm());
         interfaceElem.appendChild(surrenderButton);
         interfaceElem.appendChild(speakButton);
