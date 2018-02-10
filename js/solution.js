@@ -110,7 +110,7 @@
         if(MAP){MAP.destroy();}
         ymaps.ready(() => { 
             MAP = new ymaps.Map ("map", MAP_STATE);
-            CITIES = root.SHRI_CITIES.getCities(18, 1308);
+            CITIES = root.SHRI_CITIES.getCities(20, 2621);
         });
     }
 
