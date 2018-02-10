@@ -12,7 +12,13 @@
     var LAST_LETTER = '';
     var PLAYERS_GUESSES = [];
     var COMPUTER_GUESSES = [];
-    
+
+    var SpeechRecognition = SpeechRecognition || webkitSpeechRecognition;
+    var SpeechRecognitionEvent = SpeechRecognitionEvent || webkitSpeechRecognitionEvent; 
+    var recognition = new SpeechRecognition();  
+    recognition.lang = 'ru-RU';
+    recognition.interimResults = false;
+    recognition.maxAlternatives = 1;
 
     async function playersMove(e) {
         e.preventDefault();
@@ -80,6 +86,7 @@
         PLAYERS_GUESSES = [];
         COMPUTER_GUESSES = [];
         LAST_LETTER = '';
+        document.querySelector('.mainInput').value = '';
         document.querySelector('.interface').classList.remove('display-none');        
         document.querySelector('.hints').classList.remove('display-none');
         document.querySelectorAll('.hint').forEach(hint => {hint.classList.remove('taken')});
@@ -158,9 +165,25 @@
             && ((LAST_LETTER && city[0] === LAST_LETTER) || !LAST_LETTER) 
     }
 
+    function speech (){
+        recognition.start();
+    }
+
+    recognition.onresult = function(event) {
+        var last = event.results.length - 1;
+        diagnostic.textContent = 'Result received: ' + color + '.';
+        bg.style.backgroundColor = color;
+        console.log('Confidence: ' + event.results[0][0].confidence);
+    }
+
+    recognition.onspeechend = function() {
+        recognition.stop();
+    }
+
     root.SHRI_CITIES.playersMove = playersMove;
     root.SHRI_CITIES.getHint = getHint;
     root.SHRI_CITIES.showResults = showResults;
+    root.SHRI_CITIES.speech = speech;
     root.SHRI_CITIES.newGame = newGame;
     root.SHRI_CITIES.mapInit = mapInit;
 })(this);

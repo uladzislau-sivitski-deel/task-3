@@ -38,8 +38,12 @@
         const interfaceElem = element('div', 'interface');
         const surrenderButton = element('button', 'surrender-button', 'Сдаться.');
         surrenderButton.onclick = () => root.SHRI_CITIES.showResults();
+
+        const speakButton = element('button', 'speak-button', 'Голос.');
+        surrenderButton.onclick = () => root.SHRI_CITIES.speech();
         interfaceElem.appendChild(renderForm());
         interfaceElem.appendChild(surrenderButton);
+        interfaceElem.appendChild(speakButton);
         interfaceElem.appendChild(renderHints());
         return interfaceElem;
     }
@@ -47,7 +51,7 @@
     function renderForm() {
         const form = element('form', 'mainForm');
         const input = element('input', 'mainInput');
-        input.pattern = '[А-Я]{1}[А-Яа-я-?\'?\s?]+'; 
+        input.pattern = '[А-Я]{1}[А-Яа-я-?\'?\s?]+';
 
         const check = () => {
             if (input.validity.patternMismatch) {
