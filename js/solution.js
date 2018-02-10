@@ -19,9 +19,8 @@
         if(formValidation(city)) {
             let valid = await isValidCity(city);
             if(valid){
-                succesfullTurn(city).then(() => {
-                    return false;
-                });                
+                let success = await succesfullTurn(city);
+                return false;
             }
         }
         return false;        
@@ -50,7 +49,7 @@
     }
 
     function succesfullTurn(city) {
-        addCityToMap(city, 'blue').then(() => {
+        return addCityToMap(city, 'blue').then(() => {
             afterTurn('player', city);
             setTimeout(() => {
                 computerMove(city);  
