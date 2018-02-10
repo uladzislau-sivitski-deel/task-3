@@ -169,8 +169,7 @@
 
     recognition.onresult = function(event) {
         var last = event.results.length - 1;
-        var city = event.results[last][0].transcript.split(' ')[0];
-        city[0] = city[0].toUpperCase();
+        var city = event.results[last][0].transcript; 
         document.querySelector('.main-input').value = city;        
     }
 

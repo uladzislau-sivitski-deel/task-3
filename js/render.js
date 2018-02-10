@@ -36,11 +36,17 @@
 
     function renderInterface() {
         const interfaceElem = element('div', 'interface');
-        const surrenderButton = element('button', 'surrender-button', 'Сдаться.');
+        const controlsElem = element('div', 'controls');
+
+        const surrenderButton = element('button', 'surrender-button', 'Сдаться');
         surrenderButton.onclick = () => root.SHRI_CITIES.showResults();
+        
+        controlsElem.appendChild(surrenderButton);
+        controlsElem.appendChild(renderHints());
+
         interfaceElem.appendChild(renderForm());
-        interfaceElem.appendChild(surrenderButton);
-        interfaceElem.appendChild(renderHints());
+        interfaceElem.appendChild(controlsElem);
+
         return interfaceElem;
     }
 
@@ -61,11 +67,8 @@
         }
         input.oninput = () => check();
         
-        const button = element('button', 'main-button', 'OK');
-
         container.appendChild(input);
         container.appendChild(microphone);       
-        container.appendChild(button);
         form.appendChild(container);
         form.onsubmit = (e) => root.SHRI_CITIES.playersMove(e);
         
@@ -74,11 +77,11 @@
 
     function renderHints() {
         const hints = element('div', 'hints');
-        const hintButton = element('button', 'hint-button', 'Взять подсказку.');
+        const hintButton = element('button', 'hint-button', 'Взять подсказку');
         hintButton.onclick = () => root.SHRI_CITIES.getHint();
         hints.appendChild(hintButton);
         for (let i = 0; i < 3; i++) {
-            hints.appendChild(element('span', 'hint'));
+            hints.appendChild(element('i', 'hint far fa-lightbulb'));
         }
         return hints;
     }
