@@ -14,7 +14,8 @@
     var COMPUTER_GUESSES = [];
     
 
-    async function playersMove() {
+    async function playersMove(e) {
+        e.preventDefault();
         let city = document.querySelector('.mainInput').value;
         if(formValidation(city)) {
             let valid = await isValidCity(city);
