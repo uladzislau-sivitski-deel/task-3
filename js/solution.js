@@ -34,12 +34,12 @@
 
     function gameOver(){
         --LIVES;
-        document.querySelectorAll('.heart')[LIVES].classList.add('lost');   
+        document.querySelectorAll('.heart')[LIVES].remove();   
         
         if(!LIVES){
             let container = document.querySelector('.container');
             container.insertBefore(
-                root.SHRI_CITIES.renderResults(['sada', 'asdad', 'asdad'], ['sada', 'asdad', 'asdad']),
+                root.SHRI_CITIES.renderResults(PLAYERS_GUESSES, COMPUTER_GUESSES),
                 container.children[1]
             );
         }
@@ -69,7 +69,7 @@
                 alert(`Такой город уже назывался!`);
                 return false;
                 break;
-            case (CITIES[city[0]].includes(city)):
+            case (!CITIES[city[0]].includes(city)):
                 alert(`К сожалению, мы не знаем про такой город.`);
                 return false;
                 break;
