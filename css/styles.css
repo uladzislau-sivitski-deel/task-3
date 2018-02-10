@@ -2,20 +2,26 @@
   width: 100%;
 }
 
-.mainForm {
+.interface {
   display: flex;
-  width: 50%;
   margin: auto;  
   margin-bottom: 20px;
 }
-
-.lives {
-  margin-left: 40px;
+.display-none {
+  display: none;
 }
 
-.mainInput {
-  width: calc(100% - 40px);
+.mainForm {
+
 }
+
+
+.hints {
+  position: relative;
+}
+
+
+.mainInput {}
 
 .mainInput:invalid {
   box-shadow: 0 0 5px 1px red;
@@ -29,6 +35,8 @@
 .result {
   display: flex;
   justify-content: space-around;
+  align-items: baseline;
+  margin: 20px;
 }
 
 .result-list {
@@ -41,13 +49,24 @@
   margin-top: 5vh;
 }
 
-.heart:before {
+.hint:before {
   content: '\01F4A1';
   font-size: 25px;
   color: yellow;
+  position: absolute;
+  top: -10px;  
 }
 
-.heart.lost:before {
-  content: '\01F494';
-  color: black;
+.hint:nth-child(2):before {
+  right: -25px;
+}
+.hint:nth-child(3):before {
+  right: -50px;
+}
+.hint:nth-child(4):before {
+  right: -75px;
+}
+
+.hint.taken:before {
+  content: '';
 }

@@ -28,6 +28,7 @@
      */
     function render() {
         const containerElem = element('div', 'container');
+        const interfacelem = element('div', 'interface');
 
         const map = element('div', 'map', '', 'map');
         const form = element('form', 'mainForm');
@@ -49,20 +50,24 @@
         form.appendChild(input);        
         form.appendChild(button);
 
-        const lives = element('div', 'lives');
+        const hints = element('div', 'hints');
         const hintButton = element('button', 'hint-button', 'Взять подсказку.');
         hintButton.onclick = () => root.SHRI_CITIES.getHint();
-        lives.appendChild(hintButton);
-        lives.appendChild(element('span', 'heart'));
-        lives.appendChild(element('span', 'heart'));
-        lives.appendChild(element('span', 'heart'));
+        hints.appendChild(hintButton);
+        hints.appendChild(element('span', 'hint'));
+        hints.appendChild(element('span', 'hint'));
+        hints.appendChild(element('span', 'hint'));
+
+        const surrenderButton = element('button', 'surrender-button', 'Сдаться.');
+        surrenderButton.onclick = () => root.SHRI_CITIES.showResults();
 
         form.onsubmit = () => root.SHRI_CITIES.playersMove();
-        
-        containerElem.appendChild(form);
-        containerElem.appendChild(lives);
+
+        interfacelem.appendChild(form);
+        interfacelem.appendChild(surrenderButton);
+        interfacelem.appendChild(hints);
+        containerElem.appendChild(interfacelem);
         containerElem.appendChild(map);
-        
         return containerElem;
     }
 

@@ -5,7 +5,7 @@
     });
     var EXCEPTIONS = root.SHRI_CITIES.EXCEPTIONS;
     var WIKI_URL = root.SHRI_CITIES.WIKI_URL;
-    var LIVES = root.SHRI_CITIES.LIVES;
+    var HINTS = root.SHRI_CITIES.HINTS;
     var MAP_STATE = root.SHRI_CITIES.MAP_STATE
 
     var MAP;
@@ -16,43 +16,59 @@
 
     function playersMove() {
         let city = document.querySelector('.mainInput').value;
-        formValidation(city) && isValidCity(city)
-        ? succesfullTurn(city)
-        : gameOver();
-        
+        if(formValidation(city) && isValidCity(city)) {
+            succesfullTurn(city)
+        }
         return false;
     }   
+
+    function computerMove() {
+        let city = CITIES[LAST_LETTER].find(city => isValidCity(city));
+        addCityToMap(city, 'red').then(() => {
+            afterTurn('computer', city)
+        })
+    }
 
     function succesfullTurn(city) {
         addCityToMap(city, 'blue').then(() => {
             afterTurn('player', city);
             setTimeout(() => {
                 computerMove(city);  
-            }, 1000);           
+            }, 2000);           
         })
     }
 
-    function gameOver(){
-        --LIVES;
-        document.querySelectorAll('.heart')[LIVES].remove();   
-        
-        if(!LIVES){
-            let container = document.querySelector('.container');
-            container.insertBefore(
-                root.SHRI_CITIES.renderResults(PLAYERS_GUESSES, COMPUTER_GUESSES),
-                container.children[1]
-            );
+    function showResults(){
+        document.querySelector('.interface').classList.add('display-none');
+        let container = document.querySelector('.container');
+        container.insertBefore(
+            root.SHRI_CITIES.renderResults(PLAYERS_GUESSES, COMPUTER_GUESSES),
+            container.children[1]
+        );
+    }
+
+    function getHint() {
+        --HINTS;
+        if(HINTS){
+            document.querySelectorAll('.hint')[HINTS].classList.add('taken');       
+            document.querySelector('.mainInput').value = 
+            CITIES[LAST_LETTER || 'А'].find(city => isValidCity(city));
+        }
+        else {
+            document.querySelector('.hints').classList.add('display-none');                         
         }
     }
 
     function newGame(){
         mapInit();        
         document.querySelector('.result').remove();
-        LIVES = root.SHRI_CITIES.LIVES;
-        PLAYERS_GUESSES = root.SHRI_CITIES.PLAYERS_GUESSES;
-        COMPUTER_GUESSES = root.SHRI_CITIES.COMPUTER_GUESSES;
+        HINTS = root.SHRI_CITIES.HINTS;
+        PLAYERS_GUESSES = [];
+        COMPUTER_GUESSES = [];
         LAST_LETTER = '';
-        document.querySelectorAll('.heart').forEach((heart) => {heart.classList.remove('lost')})
+        document.querySelector('.interface').classList.remove('display-none');        
+        document.querySelector('.hints').classList.remove('display-none');
+        document.querySelectorAll('.hint').forEach(hint => {hint.classList.remove('taken')});
     }
 
     function formValidation(city){
@@ -83,14 +99,13 @@
 
     function afterTurn(player, city) {
         newLastLetter(city);            
-        player === 'player' ? PLAYERS_GUESSES.push(city) : COMPUTER_GUESSES.push(city);
-    }
-
-    function computerMove() {
-        let city = CITIES[LAST_LETTER].find(city => isValidCity(city));
-        addCityToMap(city, 'red').then(() => {
-            afterTurn('computer', city)
-        })
+        if(player === 'player'){
+            PLAYERS_GUESSES.push(city)
+        }
+        else {
+            COMPUTER_GUESSES.push(city);
+            document.querySelector('.mainInput').value = LAST_LETTER;
+        }
     }
 
     function newLastLetter(city) {
@@ -124,6 +139,8 @@
     }
 
     root.SHRI_CITIES.playersMove = playersMove;
+    root.SHRI_CITIES.getHint = getHint;
+    root.SHRI_CITIES.showResults = showResults;
     root.SHRI_CITIES.newGame = newGame;
     root.SHRI_CITIES.mapInit = mapInit;
 })(this);
