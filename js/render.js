@@ -34,7 +34,7 @@
         const form = element('form', 'mainForm');
         const input = element('input', 'mainInput');
         
-        input.pattern = '[А-Я]{1}[а-я-?\'?]+'; 
+        input.pattern = '[А-Я]{1}[А-Яа-я-?\'?]+'; 
 
         const check = () => {
             if (input.validity.patternMismatch) {

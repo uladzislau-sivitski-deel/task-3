@@ -94,27 +94,23 @@
                 notInBase = true;
             }
         }
-        switch (city) {
-            case '':
-                alert('Введите город.');
-                return false;
-                break;
-            case (LAST_LETTER && city[0] !== LAST_LETTER):
-                alert(`Ваш город должен начинаться с буквы '${LAST_LETTER}'`);
-                return false;
-                break;
-            case (PLAYERS_GUESSES.includes(city[0]) || COMPUTER_GUESSES.includes(city[0]) ):
-                alert(`Такой город уже назывался!`);
-                return false;
-                break;
-            case (notInBase):
-                alert(`К сожалению, мы не знаем про такой город.`);
-                return false;
-                break;
-            default:
-                return true;
-                break;
+        if (city === '') {
+            alert('Введите город.');
+            return false;
         }
+        if (LAST_LETTER && city[0] !== LAST_LETTER){
+            alert(`Ваш город должен начинаться с буквы '${LAST_LETTER}'`);
+            return false;
+        }
+        if (PLAYERS_GUESSES.includes(city) || COMPUTER_GUESSES.includes(city) ){
+            alert(`Такой город уже назывался!`);
+            return false;
+        }
+        if (notInBase){
+            alert(`К сожалению, мы не знаем про такой город.`);
+            return false;
+        }
+        return true;
     }
 
 
