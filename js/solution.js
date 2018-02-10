@@ -122,8 +122,6 @@
         return true;
     }
 
-
-
     function afterTurn(player, city) {
         newLastLetter(city);            
         if(player === 'player'){
@@ -171,9 +169,9 @@
 
     recognition.onresult = function(event) {
         var last = event.results.length - 1;
-        diagnostic.textContent = 'Result received: ' + color + '.';
-        bg.style.backgroundColor = color;
-        console.log('Confidence: ' + event.results[0][0].confidence);
+        var city = event.results[last][0].transcript.split(' ')[0];
+        city[0] = city[0].toUpperCase();
+        document.querySelector('.mainInput').value = city;        
     }
 
     recognition.onspeechend = function() {
