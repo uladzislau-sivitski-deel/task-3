@@ -61,7 +61,7 @@
         const surrenderButton = element('button', 'surrender-button', 'Сдаться.');
         surrenderButton.onclick = () => root.SHRI_CITIES.showResults();
 
-        form.onsubmit = () => root.SHRI_CITIES.playersMove();
+        form.onsubmit = (e) => root.SHRI_CITIES.playersMove(e);
 
         interfacelem.appendChild(form);
         interfacelem.appendChild(surrenderButton);

@@ -20,8 +20,7 @@
         if(formValidation(city)) {
             let valid = await isValidCity(city);
             if(valid){
-                let success = await succesfullTurn(city);
-                return false;
+                succesfullTurn(city);
             }
         }
         return false;        
@@ -50,12 +49,11 @@
     }
 
     function succesfullTurn(city) {
-        return addCityToMap(city, 'blue').then(() => {
+        addCityToMap(city, 'blue').then(() => {
             afterTurn('player', city);
             setTimeout(() => {
                 computerMove(city);  
-            }, 2000);   
-            return false;        
+            }, 2000);        
         })
     }
 
