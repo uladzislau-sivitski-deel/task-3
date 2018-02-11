@@ -52,12 +52,12 @@
         microphone.onclick = () => root.SHRI_CITIES.speech();
         
         const input = element('input', 'main-input');
-        input.pattern = '[А-Я]{1}[А-Яа-я-?\'?\s?]+';
+        input.pattern = '[А-Яа-я-?\'?\s?]+';
         input.autofocus = true;
 
         const check = () => {
             if (input.validity.patternMismatch) {
-                input.setCustomValidity("Город должен быть на русском языке и начинаться с большой буквы!");
+                input.setCustomValidity("Город должен быть на русском языке!");
             } else {
                 input.setCustomValidity("");
             }

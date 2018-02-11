@@ -9,7 +9,7 @@
   margin-bottom: 20px;
 }
 .display-none {
-  visibility: hidden;
+  display: none;
 }
 
 .main-form {
@@ -27,9 +27,6 @@
   height: 40px;
   margin-top: 10px;
 }
-.controls button {
-  font-size: 25px;
-}
 
 .form-container{
   display: flex;
@@ -39,12 +36,19 @@
 button{
   border: 1px solid black;
   background: white;
+  cursor: pointer;
+  font-size: 25px;
 }
 
 .main-form .fas{
   padding: 5px;
   position: absolute;
   right: 0;
+  cursor: pointer;
+}
+
+.main-form .fas.taped{
+  color: red;
 }
 
 .hints {
@@ -77,17 +81,12 @@ button{
   display: flex;
   justify-content: space-around;
   align-items: baseline;
-  margin: 20px;
+  font-size: 25px;
 }
 
 .result-list {
   height: 10vh;
   overflow-y: scroll;
-}
-
-.new-game-button{
-  height: 25px;
-  margin-top: 5vh;
 }
 
 .hint {
