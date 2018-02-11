@@ -69,9 +69,7 @@
     function succesfullTurn(city) {
         root.SHRI_CITIES.addCityToMap(city, 'blue');
         afterTurn(city.name, 'player');
-        setTimeout(() => {
-            computerMove(city);  
-        }, 3000);        
+        setTimeout(() => computerMove(city), 3000);        
     }
 
     function afterTurn(city, player) {
@@ -86,9 +84,7 @@
     }
 
     function newLastLetter(city) {
-        LAST_LETTER = !EXCEPTIONS.includes(city[city.length - 1])
-        ? (city[city.length - 1]).toUpperCase()
-        : city[city.length - 2].toUpperCase();
+        LAST_LETTER = city[city.length - !EXCEPTIONS.includes(city[city.length - 1]) ? 1 : 2].toUpperCase()
     }
 
     async function computerMove() {
