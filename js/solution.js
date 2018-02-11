@@ -87,17 +87,18 @@
     }
 
     async function formValidation(city){
+        let result = false;
         if (city === '') {
             alert('Введите город.');
-            return false;
+            return result;
         }
         if (LAST_LETTER && city[0] !== LAST_LETTER){
             alert(`Ваш город должен начинаться с буквы '${LAST_LETTER}'`);
-            return false;
+            return result;
         }
         if (PLAYERS_GUESSES.includes(city) || COMPUTER_GUESSES.includes(city) ){
             alert(`Такой город уже назывался!`);
-            return false;
+            return result;
         }
         let notInBase = false;
         if(!CITIES[city[0]].includes(city)){
@@ -109,7 +110,7 @@
                 notInBase = true;
             }
             else {
-                CITY = {
+                result = {
                     name: possibleMatch,
                     coordinates : inYandex.geoObjects.get(0).geometry.getCoordinates()
                 }
@@ -117,9 +118,9 @@
         }
         if (notInBase){
             alert(`К сожалению, мы не знаем про такой город.`);
-            return false;
+            return result;
         }
-        return true;
+        return result;
     }
 
     function afterTurn(city, player) {
