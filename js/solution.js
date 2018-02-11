@@ -13,28 +13,20 @@
     var PLAYERS_GUESSES = [];
     var COMPUTER_GUESSES = [];
 
-    var SpeechRecognition = SpeechRecognition || webkitSpeechRecognition;
-    var SpeechRecognitionEvent = SpeechRecognitionEvent || webkitSpeechRecognitionEvent; 
-    var recognition = new SpeechRecognition();  
-    recognition.lang = 'ru-RU';
-    recognition.interimResults = false;
-    recognition.maxAlternatives = 1;
-
     async function playersMove(e) {
         e.preventDefault();
         let city = document.querySelector('.main-input').value;
-        let validInput = await formValidation(city);
-        if(validInput && isValidCity(city)) {
-            succesfullTurn(city);
+        let valid = await formValidation(city);
+        if(valid && isValidCity(valid.name)) {
+            succesfullTurn(valid);
         }
         return false;        
     }   
 
     async function computerMove() {
         let city = await getNextCity();
-        addCityToMap(city, 'red').then(() => {
-            afterTurn('computer', city)
-        })
+        addCityToMap(city, 'red');
+        afterTurn(city.name, 'computer', city);
     }
 
     async function getNextCity(){
@@ -45,7 +37,10 @@
             if(isValidCity(possibleMatch)){
                 var inYandex = await root.SHRI_CITIES.isInYandex(possibleMatch);
                 if(inYandex){
-                    city = arr[Math.floor(Math.random()*arr.length)];                                    
+                    city = {
+                        name: possibleMatch,
+                        coordinates : inYandex.geoObjects.get(0).geometry.getCoordinates()
+                    }
                 }
             }
         }
@@ -53,12 +48,11 @@
     }
 
     function succesfullTurn(city) {
-        addCityToMap(city, 'blue').then(() => {
-            afterTurn('player', city);
-            setTimeout(() => {
-                computerMove(city);  
-            }, 2000);        
-        })
+        addCityToMap(city, 'blue');
+        afterTurn(city.name, 'player');
+        setTimeout(() => {
+            computerMove(city);  
+        }, 2000);        
     }
 
     function showResults(){
@@ -114,6 +108,12 @@
             if(!inYandex) {
                 notInBase = true;
             }
+            else {
+                CITY = {
+                    name: possibleMatch,
+                    coordinates : inYandex.geoObjects.get(0).geometry.getCoordinates()
+                }
+            }
         }
         if (notInBase){
             alert(`К сожалению, мы не знаем про такой город.`);
@@ -122,7 +122,7 @@
         return true;
     }
 
-    function afterTurn(player, city) {
+    function afterTurn(city, player) {
         newLastLetter(city);            
         if(player === 'player'){
             PLAYERS_GUESSES.push(city)
@@ -140,13 +140,13 @@
     }
 
     function addCityToMap(city, color){
-        var myGeocoder = ymaps.geocode(city, { kind: 'locality' });        
-        return myGeocoder.then((res) => {
-            let coordinates = res.geoObjects.get(0).geometry.getCoordinates();
-            MAP.panTo(coordinates);            
-            let placemark = new ymaps.Placemark(coordinates, {iconContent: city}, {preset: `twirl#${color}StretchyIcon`});
-            MAP.geoObjects.add(placemark);
-        })
+        MAP.panTo(city.coordinates);            
+        let placemark = new ymaps.Placemark(
+            city.coordinates,
+            {iconContent: city.name},
+            {preset: `twirl#${color}StretchyIcon`}
+        );
+        MAP.geoObjects.add(placemark);
     }
 
     function mapInit(){
@@ -163,24 +163,9 @@
             && ((LAST_LETTER && city[0] === LAST_LETTER) || !LAST_LETTER) 
     }
 
-    function speech (){
-        recognition.start();
-    }
-
-    recognition.onresult = function(event) {
-        var last = event.results.length - 1;
-        var city = event.results[last][0].transcript; 
-        document.querySelector('.main-input').value = city;        
-    }
-
-    recognition.onspeechend = function() {
-        recognition.stop();
-    }
-
     root.SHRI_CITIES.playersMove = playersMove;
     root.SHRI_CITIES.getHint = getHint;
     root.SHRI_CITIES.showResults = showResults;
-    root.SHRI_CITIES.speech = speech;
     root.SHRI_CITIES.newGame = newGame;
     root.SHRI_CITIES.mapInit = mapInit;
 })(this);

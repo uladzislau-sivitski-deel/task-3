@@ -33,6 +33,7 @@
 
 .form-container{
   display: flex;
+  position: relative;
 }
 
 button{
@@ -42,6 +43,8 @@ button{
 
 .main-form .fas{
   padding: 5px;
+  position: absolute;
+  right: 0;
 }
 
 .hints {
@@ -55,7 +58,8 @@ button{
 
 
 .main-input {
-  width: calc(100% - 30px);
+  width: 100%;
+  font-size: 30px;
   border: none;
   outline: none;
 }
