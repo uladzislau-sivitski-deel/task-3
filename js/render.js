@@ -51,6 +51,7 @@
         microphone.onclick = () => root.SHRI_CITIES.speech();
         const input = element('input', 'main-input');
         input.pattern = '[А-Я]{1}[А-Яа-я-?\'?\s?]+';
+        input.autofocus = true;
 
         const check = () => {
             if (input.validity.patternMismatch) {

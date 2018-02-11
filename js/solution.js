@@ -39,7 +39,7 @@
                 if(inYandex){
                     city = {
                         name: possibleMatch,
-                        coordinates : inYandex.geoObjects.get(0).geometry.getCoordinates()
+                        coordinates : inYandex.geometry.getCoordinates()
                     }
                 }
             }
@@ -112,7 +112,7 @@
             else {
                 result = {
                     name: city,
-                    coordinates : inYandex.geoObjects.get(0).geometry.getCoordinates()
+                    coordinates : inYandex.geometry.getCoordinates()
                 }
             }
         }
