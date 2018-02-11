@@ -22,4 +22,5 @@
 
   root.SHRI_CITIES.MAP = MAP;
   root.SHRI_CITIES.mapInit = mapInit;
+  root.SHRI_CITIES.addCityToMap = addCityToMap;
 })(this);

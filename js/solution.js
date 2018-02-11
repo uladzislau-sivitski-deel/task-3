@@ -23,7 +23,7 @@
     }   
 
     function isValidCity(city) {
-        return CITIES[city[0].toUpperCase()].find(el => el.toLowerCase() === city.toLowerCase())
+        return findIgnoringCase(city)
              && !PLAYERS_GUESSES.includes(city)
              && !COMPUTER_GUESSES.includes(city)
              && ((LAST_LETTER && city[0] === LAST_LETTER) || !LAST_LETTER) 
@@ -44,7 +44,7 @@
             return result;
         }
         let notInBase = false;
-        if(!CITIES[city[0]].includes(city)){
+        if(!findIgnoringCase(city)){
             notInBase = true;
         }
         else {
@@ -64,6 +64,10 @@
             return result;
         }
         return result;
+    }
+
+    function findIgnoringCase(city) {
+       return CITIES[city[0].toUpperCase()].find(el => el.toLowerCase() === city.toLowerCase())
     }
 
     function succesfullTurn(city) {
