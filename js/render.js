@@ -74,7 +74,7 @@
 
     function renderHints() {
         const hints = element('div', 'hints');
-        const hintButton = element('button', 'hint-button', 'Взять подсказку');
+        const hintButton = element('button', 'hint-button', 'Подсказка');
         hintButton.onclick = () => root.SHRI_CITIES.getHint();
         hints.appendChild(hintButton);
         for (let i = 0; i < HINTS; i++) {
