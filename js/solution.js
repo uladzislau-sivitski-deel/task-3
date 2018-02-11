@@ -13,7 +13,7 @@
     var COMPUTER_GUESSES = [];
 
     async function playersMove(e) {
-        e.preventDefault();
+        if(e){e.preventDefault();}
         let input = document.querySelector('.main-input').value;
         let city = await formValidation(input);
         if(city && isValidCity(city.name)) {
