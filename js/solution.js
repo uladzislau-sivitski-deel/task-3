@@ -88,7 +88,8 @@
     }
 
     function newLastLetter(city) {
-        LAST_LETTER = city[city.length - !EXCEPTIONS.includes(city[city.length - 1]) ? 1 : 2].toUpperCase()
+        let sub = !EXCEPTIONS.includes(city[city.length - 1]) ? 1 : 2;
+        LAST_LETTER = city[city.length - sub].toUpperCase()
     }
 
     async function computerMove() {
