@@ -52,7 +52,7 @@
         afterTurn(city.name, 'player');
         setTimeout(() => {
             computerMove(city);  
-        }, 2000);        
+        }, 3000);        
     }
 
     function showResults(){
@@ -66,8 +66,8 @@
 
     async function getHint() {
         let city = await getNextCity();
-        document.querySelectorAll('.hint')[HINTS - 1].classList.add('taken');       
-        document.querySelector('.main-input').value = city;
+        document.querySelectorAll('.hint')[HINTS - 1].classList.add('taken'); 
+        succesfullTurn(city);      
         if(!--HINTS){
             document.querySelector('.hints').classList.add('display-none');          
         }

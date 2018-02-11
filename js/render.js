@@ -47,8 +47,10 @@
     function renderForm() {
         const form = element('form', 'main-form');
         const container = element('div', 'form-container');
+        
         const microphone = element('i', 'fas fa-microphone');
         microphone.onclick = () => root.SHRI_CITIES.speech();
+        
         const input = element('input', 'main-input');
         input.pattern = '[А-Я]{1}[А-Яа-я-?\'?\s?]+';
         input.autofocus = true;
@@ -63,10 +65,10 @@
         input.oninput = () => check();
         
         container.appendChild(input);
-        container.appendChild(microphone);       
+        container.appendChild(microphone);   
+
         form.appendChild(container);
         form.onsubmit = (e) => root.SHRI_CITIES.playersMove(e);
-        
         return form;
     }
 
@@ -83,7 +85,7 @@
 
     function renderList(arr, label) {
         const listContainer = element('div', 'result-list-container');        
-        const list = element('list', 'result-list');
+        const list = element('ol', 'result-list');
         listContainer.appendChild(element('span', 'result-label', label));
         for (let i = 0; i < arr.length; i++) {
             list.appendChild(element('li', 'list-item', arr[i]));
