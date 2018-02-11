@@ -5,7 +5,7 @@
     root.SHRI_CITIES.EXCEPTIONS = ['ь', 'ъ', 'ы', 'й'];
     root.SHRI_CITIES.HINTS = 3;
     root.SHRI_CITIES.MAP_STATE = {
-        center: [55.76, 37.64],
+        center: [0, 0],
         zoom: 3,
         behaviors:['default', 'scrollZoom'],
     }

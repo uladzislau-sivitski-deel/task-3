@@ -1,12 +1,6 @@
 (function (root) {
-    /**
-     * Создает HTML элемент заданного типа с заданным CSS классом
-     *
-     * @param {string} type тип создаваемого HTML элемента
-     * @param {string} className CSS класс
-     * @param {string} [text] текст
-     * @returns {HTMLElement} HTML элемент
-     */
+    var HINTS = root.SHRI_CITIES.HINTS;
+
     function element(type, className, text, id) {
         var elem = document.createElement(type);
         elem.className = className;
@@ -80,7 +74,7 @@
         const hintButton = element('button', 'hint-button', 'Взять подсказку');
         hintButton.onclick = () => root.SHRI_CITIES.getHint();
         hints.appendChild(hintButton);
-        for (let i = 0; i < 3; i++) {
+        for (let i = 0; i < HINTS; i++) {
             hints.appendChild(element('i', 'hint far fa-lightbulb'));
         }
         return hints;

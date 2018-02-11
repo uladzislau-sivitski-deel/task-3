@@ -111,7 +111,7 @@
             }
             else {
                 result = {
-                    name: possibleMatch,
+                    name: city,
                     coordinates : inYandex.geoObjects.get(0).geometry.getCoordinates()
                 }
             }
